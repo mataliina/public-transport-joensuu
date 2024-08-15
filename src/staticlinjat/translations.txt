@@ -1,0 +1,1 @@
+"table_name","field_name","record_id","language","translation","record_sub_id"

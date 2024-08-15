@@ -1,0 +1,5 @@
+"agency_id","agency_name","agency_url","agency_timezone","agency_email","agency_branding_url"
+"6791","Linja-Karjala Oy","http://savonlinja.fi/","Europe/Helsinki","",""
+"6902","Savo-Karjalan Linja Oy","http://www.savokarjalanlinja.fi/","Europe/Helsinki","",""
+"6903","Savonlinja Oy","http://www.savonlinja.fi/","Europe/Helsinki","",""
+"6990","Länsilinjat Oy","http://lansilinjat.fi/","Europe/Helsinki","",""
