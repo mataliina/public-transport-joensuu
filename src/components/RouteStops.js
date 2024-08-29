@@ -1,11 +1,10 @@
-import { useContext, useState, useEffect } from 'react';
-import { StopsContext } from '../context/StopsContext';
+import { useState, useEffect } from 'react';
 import useGTFSRealtimeData from '../hooks/useGTFSRealtimeData';
-import { List, ListItem } from '@mui/material';
+import { List, Typography } from '@mui/material';
+import StopItem from './StopItem';
 
 const RouteStops = (props) => {
 	const { vehicle } = props;
-	const { getStopName } = useContext(StopsContext);
 	const { data, loading, error } = useGTFSRealtimeData('/joensuu/api/gtfsrealtime/v1.0/feed/tripupdate');
 
 	const [stopsOnRoute, setStopsOnRoute] = useState([]);
@@ -29,20 +28,14 @@ const RouteStops = (props) => {
 	return (
 		<div>
 			{vehicle && (
-				<h2>
+				<Typography variant='h2' color='primary'>
 					{vehicle.vehicle.trip.routeId} {vehicle.vehicle.vehicle.label}
-				</h2>
+				</Typography>
 			)}
 			{stopsOnRoute.length > 0 && (
 				<List>
 					{stopsOnRoute.map((stop, index) => {
-						return (
-							<ListItem key={index}>
-								{stop.stopSequence} <b>{getStopName(stop.stopId)}</b>{' '}
-								<span>Saapuu: {stop.arrival ? new Date(stop.arrival.time * 1000).toLocaleTimeString() : 'N/A'} </span>
-								<span>Lähtee: {stop.departure ? new Date(stop.departure.time * 1000).toLocaleTimeString() : 'N/A'} </span>
-							</ListItem>
-						);
+						return <StopItem key={index} stop={stop} />;
 					})}
 				</List>
 			)}

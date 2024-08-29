@@ -9,6 +9,7 @@ import RouteStops from './RouteStops';
 import RouteSelector from './RouteSelector';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import Alert from '@mui/material/Alert';
+import StopSearch from './StopSearch';
 
 const VehicleMap = () => {
 	const [vehiclesOnRoute, setVehiclesOnRoute] = useState([]);
@@ -17,7 +18,7 @@ const VehicleMap = () => {
 	const [center, setCenter] = useState([62.60841, 29.871332]); // Leveälahti I: 62.60841, 29.871332
 	const { fetchStops } = useContext(StopsContext);
 
-	const { data, loading, error } = useGTFSRealtimeData('/joensuu/api/gtfsrealtime/v1.0/feed/vehicleposition');
+	const { data, loading, error } = useGTFSRealtimeData('/joensuu/api/gtfsrealtime/v1.0/feed/vehicleposition', 2000);
 
 	useEffect(() => {
 		if (data && selectedRoute) {
@@ -26,7 +27,7 @@ const VehicleMap = () => {
 			});
 
 			if (vehiclesOnSelectedRoute.length > 0) setVehiclesOnRoute(vehiclesOnSelectedRoute);
-
+			console.log('vehiclesonroute: ', vehiclesOnSelectedRoute);
 			if (vehiclesOnSelectedRoute.length === 1) setSelectedVehicle(vehiclesOnSelectedRoute[0]);
 		}
 	}, [data, selectedRoute]);
@@ -69,7 +70,8 @@ const VehicleMap = () => {
 					{vehiclesOnRoute.length > 1 && selectedVehicle === null && <Alert severity='info'>Valitse bussi kartalta</Alert>}
 					{selectedVehicle && <RouteStops vehicle={selectedVehicle} />}
 				</Grid2>
-				<Grid2>
+				<Grid2 xs={6} justifyContent='center' alignItems='center'>
+					<StopSearch />
 					<StopInfo />
 				</Grid2>
 			</Grid2>

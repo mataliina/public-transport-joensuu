@@ -1,6 +1,5 @@
 import useGTFSStaticData from '../hooks/useGTFSStaticData';
 import routeUrl from '../staticlinjat/routes.txt';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -21,8 +20,10 @@ const RouteSelector = (props) => {
 			{!loading && data && (
 				<FormControl fullWidth>
 					{/*<InputLabel id='route-select-label'>Valitse reitti</InputLabel>*/}
-					<Select onChange={handleRouteSelect} id='route-select' value={selectedRoute}>
-						<MenuItem value=''></MenuItem>
+					<Select onChange={handleRouteSelect} id='route-select' value={selectedRoute} displayEmpty>
+						<MenuItem value=''>
+							<em>Valitse linja</em>
+						</MenuItem>
 						{data.map((route, index) => {
 							return (
 								<MenuItem key={index} value={route.route_id}>

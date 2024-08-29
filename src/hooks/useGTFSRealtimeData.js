@@ -9,10 +9,10 @@ const useGTFSRealtimeData = (url, interval = 5000) => {
 	const [error, setError] = useState(null);
 
 	const API_URL = 'https://data.waltti.fi';
-	const token = 'OTczNTI2MjkxNzUzNTI0MjpvSVVzV21OdWJ5NWw0YW90RDBEb1RidXhZV0UxWDE4Qg==';
 
 	useEffect(() => {
 		const fetchData = async () => {
+			const token = process.env.REACT_APP_API_TOKEN;
 			try {
 				const headers = {
 					Authorization: `Basic ${token}`,
