@@ -16,7 +16,6 @@ const VehicleMap = () => {
 	const [selectedVehicle, setSelectedVehicle] = useState(null);
 	const [selectedRoute, setSelectedRoute] = useState('');
 	const [center, setCenter] = useState([62.60841, 29.871332]); // Leveälahti I: 62.60841, 29.871332
-	const { fetchStops } = useContext(StopsContext);
 
 	const { data, loading, error } = useGTFSRealtimeData('/joensuu/api/gtfsrealtime/v1.0/feed/vehicleposition', 2000);
 
@@ -40,12 +39,8 @@ const VehicleMap = () => {
 		}
 	}, [selectedVehicle]);
 
-	useEffect(() => {
-		fetchStops();
-	}, []);
-
 	return (
-		<div>
+		<Grid2 container rowSpacing={2} columnSpacing={1}>
 			<MapContainer center={center} zoom={13} style={{ height: '70vh', width: '100%' }}>
 				<TileLayer
 					url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
@@ -56,8 +51,8 @@ const VehicleMap = () => {
 						return <VehicleMarker vehicle={vehicle} key={index} setSelectedVehicle={setSelectedVehicle} />;
 					})}
 			</MapContainer>
-			<Grid2 container spacing={2}>
-				<Grid2 xs={6}>
+			<Grid2 container spacing={2} xs={12}>
+				<Grid2 xs={12} md={6}>
 					<RouteSelector
 						selectedRoute={selectedRoute}
 						setSelectedRoute={setSelectedRoute}
@@ -70,12 +65,12 @@ const VehicleMap = () => {
 					{vehiclesOnRoute.length > 1 && selectedVehicle === null && <Alert severity='info'>Valitse bussi kartalta</Alert>}
 					{selectedVehicle && <RouteStops vehicle={selectedVehicle} />}
 				</Grid2>
-				<Grid2 xs={6} justifyContent='center' alignItems='center'>
+				<Grid2 xs={12} md={6} justifyContent='center' alignItems='center'>
 					<StopSearch />
 					<StopInfo />
 				</Grid2>
 			</Grid2>
-		</div>
+		</Grid2>
 	);
 };
 

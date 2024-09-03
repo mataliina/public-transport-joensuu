@@ -20,13 +20,11 @@ const StopSearch = (props) => {
 	};
 
 	useEffect(() => {
-		console.log('selectedStop vaihtui ', selectedStop);
 		const newStop = stops.find((stop) => stop.stop_id === selectedStop);
 		if (newStop) {
 			const newStopName = newStop.stop_name;
 			setInputValue(newStopName);
 			setSelected(newStop);
-			console.log('newSelected: ', newStop);
 		} else {
 			setInputValue('');
 			setSelected(null);
@@ -55,13 +53,13 @@ const StopSearch = (props) => {
 					/>
 				</div>
 			)}
-			{selectedStop && (
+			{/*selectedStop && (
 				<List>
 					<ListItem>
 						<ListItemText primary={`Selected Stop: ${getStopName(selectedStop)}`} secondary={`Stop ID: ${selectedStop} `} />
 					</ListItem>
 				</List>
-			)}
+			)*/}
 		</div>
 	);
 };

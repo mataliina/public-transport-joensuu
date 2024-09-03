@@ -1,24 +1,38 @@
 import React, { createContext, useEffect, useState } from 'react';
 import Papa from 'papaparse';
 import stopsData from '../staticlinjat/stops.txt';
+import calendarData from '../staticlinjat/calendar.txt';
+import calendarDatesData from '../staticlinjat/calendar_dates.txt';
 import stopTimesDataUrl from '../staticlinjat/stop_times.txt';
 import tripsDataUrl from '../staticlinjat/trips.txt';
 
-// Luo Context
 export const StopsContext = createContext();
 
-// Luo Context Provider -komponentti
 export const StopsProvider = ({ children }) => {
 	const [stops, setStops] = useState([]);
 	const [selectedStop, setSelectedStop] = useState('');
 	const [stopTimesData, setStopTimesData] = useState([{}]);
+	const [stopTimes, setStopTimes] = useState([]);
+	const [calendar, setCalendar] = useState([]);
+	const [calendarDates, setCalendarDates] = useState([]);
+	const [trips, setTrips] = useState([]);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		console.log('fetchStopTimesForStop');
-		console.log('selectedStop: ', selectedStop);
-		fetchStopTimesForStop(selectedStop);
+		fetchStops();
+		fetchCalendar();
+		fetchCalendarDates();
+		fetchTrips();
+		fetchStopTimes();
+	}, []);
+
+	useEffect(() => {
+		getTodaysStopTimesForStop(selectedStop);
 	}, [selectedStop]);
+
+	const getIsoDateString = (dateString) => {
+		return dateString.slice(0, 4) + '-' + dateString.slice(4, 6) + '-' + dateString.slice(6, 8);
+	};
 
 	const fetchStops = async () => {
 		const response = await fetch(stopsData);
@@ -31,9 +45,137 @@ export const StopsProvider = ({ children }) => {
 				setStops(results.data);
 			},
 			error: (error) => {
-				console.error('Error parsing CSV:', error);
+				console.error('Error parsing stops data:', error);
 			},
 		});
+	};
+
+	const fetchTrips = async () => {
+		const response = await fetch(tripsDataUrl);
+		const csvText = await response.text();
+
+		Papa.parse(csvText, {
+			header: true,
+			skipEmptyLines: true,
+			complete: function (results) {
+				setTrips(results.data);
+			},
+			error: (error) => {
+				console.error('Error parsing trips data:', error);
+			},
+		});
+	};
+
+	const fetchStopTimes = async () => {
+		const response = await fetch(stopTimesDataUrl);
+		const csvText = await response.text();
+
+		Papa.parse(csvText, {
+			header: true,
+			skipEmptyLines: true,
+			complete: function (results) {
+				setStopTimes(results.data);
+			},
+			error: (error) => {
+				console.error('Error parsing stop times data:', error);
+			},
+		});
+	};
+
+	const fetchCalendar = async () => {
+		const response = await fetch(calendarData);
+		const csvText = await response.text();
+
+		Papa.parse(csvText, {
+			header: true,
+			skipEmptyLines: true,
+			complete: function (results) {
+				setCalendar(results.data);
+			},
+			error: (error) => {
+				console.error('Error parsing calendar data:', error);
+			},
+		});
+	};
+
+	const fetchCalendarDates = async () => {
+		const response = await fetch(calendarDatesData);
+		const csvText = await response.text();
+
+		Papa.parse(csvText, {
+			header: true,
+			skipEmptyLines: true,
+			complete: function (results) {
+				setCalendarDates(results.data);
+			},
+			error: (error) => {
+				console.error('Error parsing calendar dates data:', error);
+			},
+		});
+	};
+
+	const getTodaysServices = () => {
+		const today = new Date();
+		const dayOfWeek = today.getDay();
+		const formattedDate = today.toISOString().slice(0, 10);
+
+		let servicesToday = [];
+
+		const dayOfWeekToString = (dayOfWeek) => {
+			const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+			return days[dayOfWeek];
+		};
+
+		calendar.forEach((service) => {
+			if (new Date(getIsoDateString(service.start_date)) <= today && new Date(getIsoDateString(service.end_date)) >= today) {
+				if (service[dayOfWeekToString(dayOfWeek)] === '1') {
+					servicesToday.push(service.service_id);
+				}
+			}
+		});
+
+		calendarDates.forEach((service) => {
+			if (service.date === formattedDate.replace(/-/g, '')) {
+				if (service.exception_type === '1') {
+					servicesToday.push(service.service_id);
+				} else if (service.exception_type === '2') {
+					const index = servicesToday.indexOf(service.service_id);
+					if (index > -1) {
+						servicesToday.splice(index, 1);
+					}
+				}
+			}
+		});
+
+		return servicesToday;
+	};
+
+	const getTodaysStopTimes = (servicesToday) => {
+		const todaysTrips = trips.filter((trip) => servicesToday.includes(trip.service_id));
+
+		return stopTimes.filter((stopTime) => todaysTrips.some((trip) => trip.trip_id === stopTime.trip_id));
+	};
+
+	const getTodaysStopTimesForStop = (stopId) => {
+		const servicesToday = getTodaysServices();
+		const todaysStopTimes = getTodaysStopTimes(servicesToday);
+
+		const stopTimesForStop = todaysStopTimes
+			.filter((row) => row.stop_id === stopId)
+			.map((stopTime) => {
+				const trip = trips.find((trip) => trip.trip_id === stopTime.trip_id);
+				return {
+					...stopTime,
+					routeId: trip ? trip.route_id : null,
+					directionId: trip ? trip.direction_id : null,
+				};
+			});
+
+		const sortedStopTimes = stopTimesForStop.sort((a, b) => {
+			return new Date(`1970-01-01T${a.departure_time}Z`).getTime() - new Date(`1970-01-01T${b.departure_time}Z`).getTime();
+		});
+		setStopTimesData(sortedStopTimes);
+		return sortedStopTimes;
 	};
 
 	const fetchStopTimesForStop = async (stopId) => {
@@ -80,7 +222,9 @@ export const StopsProvider = ({ children }) => {
 	};
 
 	return (
-		<StopsContext.Provider value={{ stops, getStopName, fetchStops, selectedStop, setSelectedStop, stopTimesData, loading }}>
+		<StopsContext.Provider
+			value={{ stops, getStopName, getTodaysServices, fetchStops, selectedStop, setSelectedStop, stopTimesData, loading }}
+		>
 			{children}
 		</StopsContext.Provider>
 	);

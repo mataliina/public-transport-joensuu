@@ -1,12 +1,25 @@
 import React, { useContext } from 'react';
 import { StopsContext } from '../context/StopsContext';
-import { Typography } from '@mui/material';
+import { Typography, List, ListItem, ListItemText } from '@mui/material';
 
 const StopInfo = () => {
 	const { getStopName, selectedStop, stopTimesData, loading } = useContext(StopsContext);
 	// hae stop_times.txt -tiedostosta halutun pysäkin pysähdysajat,
 	// mahdollisuus selata edelliset/seuraavat
 
+	const isInFuture = (time) => {
+		if (time) {
+			const now = new Date();
+			const [hours, minutes, seconds] = time.split(':');
+			const departureTime = new Date();
+			departureTime.setHours(hours);
+			departureTime.setMinutes(minutes);
+			departureTime.setSeconds(seconds);
+			departureTime.setMilliseconds(0);
+			if (now < departureTime) return true;
+			return false;
+		}
+	};
 	return (
 		<div>
 			<div>
@@ -15,15 +28,26 @@ const StopInfo = () => {
 						<Typography variant='h2' color='primary'>
 							{getStopName(selectedStop)}
 						</Typography>
+						<Typography variant='h5'>Lähtöajat pysäkiltä tänään</Typography>
 					</div>
 				)}
 				{loading && <div>Loading stop data...</div>}
 				{stopTimesData.length > 0 && !loading && (
-					<div>
+					<List>
 						{stopTimesData.map((stop, index) => {
-							return <div key={index}>{stop.departure_time}</div>;
+							return (
+								<ListItem key={index} alignItems='center' dense={true}>
+									<ListItemText sx={{ color: isInFuture(stop.departure_time) ? 'info.main' : 'info.light' }}>
+										{stop.routeId}{' '}
+									</ListItemText>
+									<ListItemText sx={{ color: isInFuture(stop.departure_time) ? 'text.primary' : 'text.disabled' }}>
+										{stop.departure_time}
+										{stop.trip_id ? (stop.trip_id.startsWith('koulu') ? ' K' : '') : ''}
+									</ListItemText>
+								</ListItem>
+							);
 						})}
-					</div>
+					</List>
 				)}
 			</div>
 		</div>

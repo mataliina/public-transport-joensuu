@@ -15,8 +15,13 @@ function useGTFSStaticData(url, interval = 5000) {
 
 				Papa.parse(csvText, {
 					header: true,
+					skipEmptyLines: true,
 					complete: (results) => {
-						setData(results.data);
+						const sortedData = results.data.sort((a, b) => {
+							console.log('a: ', a);
+							return a.route_short_name - b.route_short_name;
+						});
+						setData(sortedData);
 						setLoading(false);
 					},
 					error: (error) => {
