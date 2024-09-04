@@ -20,7 +20,7 @@ const RouteSelector = (props) => {
 		<div>
 			{!loading && data && (
 				<FormControl fullWidth>
-					<InputLabel id='route-select-label'>Valitse reitti</InputLabel>
+					<InputLabel id='route-select-label'>Valitse linja</InputLabel>
 					<Select onChange={handleRouteSelect} id='route-select' value={selectedRoute} displayEmpty>
 						{data.map((route, index) => {
 							return (

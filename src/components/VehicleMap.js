@@ -15,7 +15,7 @@ const VehicleMap = () => {
 	const [vehiclesOnRoute, setVehiclesOnRoute] = useState([]);
 	const [selectedVehicle, setSelectedVehicle] = useState(null);
 	const [selectedRoute, setSelectedRoute] = useState('');
-	const [center, setCenter] = useState([62.60841, 29.871332]); // Leveälahti I: 62.60841, 29.871332
+	const [center, setCenter] = useState([62.599837, 29.762289]);
 
 	const { data } = useGTFSRealtimeData('/joensuu/api/gtfsrealtime/v1.0/feed/vehicleposition', 2000);
 
@@ -65,7 +65,9 @@ const VehicleMap = () => {
 					{vehiclesOnRoute.length === 0 && selectedRoute !== '' && (
 						<Alert severity='warning'>Linjalla ei ole liikennettä juuri nyt</Alert>
 					)}
-					{vehiclesOnRoute.length > 1 && selectedVehicle === null && <Alert severity='info'>Valitse bussi kartalta</Alert>}
+					{vehiclesOnRoute.length > 1 && selectedVehicle === null && (
+						<Alert severity='info'>Valitse bussi kartalta nähdäksesi seuraavat pysäkit</Alert>
+					)}
 					{selectedVehicle && <RouteStops vehicle={selectedVehicle} />}
 				</Grid2>
 				<Grid2 xs={12} md={6} justifyContent='center' alignItems='center'>
