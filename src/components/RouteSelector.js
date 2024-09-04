@@ -3,10 +3,10 @@ import routeUrl from '../staticlinjat/routes.txt';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { InputLabel, Typography } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 
 const RouteSelector = (props) => {
-	const { data, loading, error } = useGTFSStaticData(routeUrl);
+	const { data, loading } = useGTFSStaticData(routeUrl);
 	const { setSelectedRoute, setSelectedVehicle, setVehiclesOnRoute, selectedRoute } = props;
 
 	const handleRouteSelect = (event) => {

@@ -17,7 +17,7 @@ const VehicleMap = () => {
 	const [selectedRoute, setSelectedRoute] = useState('');
 	const [center, setCenter] = useState([62.60841, 29.871332]); // Leveälahti I: 62.60841, 29.871332
 
-	const { data, loading, error } = useGTFSRealtimeData('/joensuu/api/gtfsrealtime/v1.0/feed/vehicleposition', 2000);
+	const { data } = useGTFSRealtimeData('/joensuu/api/gtfsrealtime/v1.0/feed/vehicleposition', 2000);
 
 	useEffect(() => {
 		if (data && selectedRoute) {

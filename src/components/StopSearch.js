@@ -3,7 +3,7 @@ import { StopsContext } from '../context/StopsContext';
 import { Autocomplete, TextField } from '@mui/material';
 
 const StopSearch = (props) => {
-	const { loading, stops, selectedStop, setSelectedStop, getStopName } = useContext(StopsContext);
+	const { loading, stops, selectedStop, setSelectedStop } = useContext(StopsContext);
 
 	const [selected, setSelected] = useState(null);
 	const [inputValue, setInputValue] = useState('');
