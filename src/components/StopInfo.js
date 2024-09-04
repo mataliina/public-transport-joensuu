@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StopsContext } from '../context/StopsContext';
 import { Typography, List, ListItem, ListItemText, FormControlLabel, FormGroup, Checkbox } from '@mui/material';
 
@@ -7,10 +7,8 @@ const StopInfo = () => {
 	// hae stop_times.txt -tiedostosta halutun pysäkin pysähdysajat,
 	// mahdollisuus selata edelliset/seuraavat
 	const [showEarlier, setShowEarlier] = useState(false);
+	const [stopTimes, setStopTimes] = useState(null);
 
-	const handleCheckboxChange = (event) => {
-		setShowEarlier(event.target.checked);
-	};
 	const isInFuture = (time) => {
 		if (time) {
 			const now = new Date();
@@ -24,6 +22,25 @@ const StopInfo = () => {
 			return false;
 		}
 	};
+
+	useEffect(() => {
+		if (stopTimesData) {
+			const futureStops = stopTimesData.filter((stop) => {
+				return isInFuture(stop.departure_time);
+			});
+
+			if (showEarlier) {
+				setStopTimes(stopTimesData);
+			} else {
+				setStopTimes(futureStops);
+			}
+		}
+	}, [showEarlier, stopTimesData]);
+
+	const handleCheckboxChange = (event) => {
+		setShowEarlier(event.target.checked);
+	};
+
 	return (
 		<div>
 			<div>
@@ -42,9 +59,9 @@ const StopInfo = () => {
 					</div>
 				)}
 				{loading && <div>Loading stop data...</div>}
-				{stopTimesData.length > 0 && !loading && (
+				{stopTimes.length > 0 && !loading && (
 					<List sx={{ display: 'inline-block' }}>
-						{stopTimesData.map((stop, index) => {
+						{stopTimes.map((stop, index) => {
 							return (
 								<ListItem key={index} alignItems='center' dense={true}>
 									<ListItemText

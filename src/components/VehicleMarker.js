@@ -39,8 +39,6 @@ const VehicleMarker = (props) => {
 
 				<br />
 				<span>Nopeus: {getCurrentSpeed(vehicle.vehicle.position.speed)} km/h</span>
-				<br />
-				<span>Suunta: {vehicle.vehicle.position.bearing}</span>
 			</Popup>
 		</Marker>
 	);
