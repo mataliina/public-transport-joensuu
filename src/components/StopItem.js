@@ -15,8 +15,7 @@ const StopItem = (props) => {
 		<ListItemButton key={index} selected={selectedStop === stop.stopId} onClick={() => handleClick(stop.stopId)}>
 			<ListItemText>
 				<b>{getStopName(stop.stopId)}</b>{' '}
-				<span>Saapuu: {stop.arrival ? new Date(stop.arrival.time * 1000).toLocaleTimeString() : 'N/A'} </span>
-				<span>Lähtee: {stop.departure ? new Date(stop.departure.time * 1000).toLocaleTimeString() : 'N/A'} </span>
+				<span>{stop.departure ? new Date(stop.departure.time * 1000).toLocaleTimeString() : 'N/A'} </span>
 			</ListItemText>
 		</ListItemButton>
 	);
