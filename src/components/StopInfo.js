@@ -1,12 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { StopsContext } from '../context/StopsContext';
-import { Typography, List, ListItem, ListItemText } from '@mui/material';
+import { Typography, List, ListItem, ListItemText, FormControlLabel, FormGroup, Checkbox } from '@mui/material';
 
 const StopInfo = () => {
 	const { getStopName, selectedStop, stopTimesData, loading } = useContext(StopsContext);
 	// hae stop_times.txt -tiedostosta halutun pysäkin pysähdysajat,
 	// mahdollisuus selata edelliset/seuraavat
+	const [showEarlier, setShowEarlier] = useState(false);
 
+	const handleCheckboxChange = (event) => {
+		setShowEarlier(event.target.checked);
+	};
 	const isInFuture = (time) => {
 		if (time) {
 			const now = new Date();
@@ -29,20 +33,28 @@ const StopInfo = () => {
 							{getStopName(selectedStop)}
 						</Typography>
 						<Typography variant='h5'>Lähtöajat pysäkiltä tänään</Typography>
+						<FormGroup>
+							<FormControlLabel
+								control={<Checkbox checked={showEarlier} onChange={handleCheckboxChange} />}
+								label='Näytä myös aikaisemmat lähdöt'
+							/>
+						</FormGroup>
 					</div>
 				)}
 				{loading && <div>Loading stop data...</div>}
 				{stopTimesData.length > 0 && !loading && (
-					<List>
+					<List sx={{ display: 'inline-block' }}>
 						{stopTimesData.map((stop, index) => {
 							return (
 								<ListItem key={index} alignItems='center' dense={true}>
-									<ListItemText sx={{ color: isInFuture(stop.departure_time) ? 'info.main' : 'info.light' }}>
+									<ListItemText
+										sx={{ minWidth: '40px', color: isInFuture(stop.departure_time) ? 'info.main' : 'info.light' }}
+									>
 										{stop.routeId}{' '}
 									</ListItemText>
 									<ListItemText sx={{ color: isInFuture(stop.departure_time) ? 'text.primary' : 'text.disabled' }}>
 										{stop.departure_time}
-										{stop.trip_id ? (stop.trip_id.startsWith('koulu') ? ' K' : '') : ''}
+										{/*stop.trip_id ? (stop.trip_id.startsWith('koulu') ? ' K' : '') : ''*/}
 									</ListItemText>
 								</ListItem>
 							);

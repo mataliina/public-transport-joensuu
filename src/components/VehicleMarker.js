@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import icon from '../images/icons8-bus-64.png';
+import pinkBusIcon from '../images/pink_bus.png';
 import { StopsContext } from '../context/StopsContext';
 
 const VehicleMarker = (props) => {
@@ -9,9 +9,9 @@ const VehicleMarker = (props) => {
 	const { getStopName } = useContext(StopsContext);
 
 	const busIcon = L.icon({
-		iconUrl: icon,
-		iconSize: [25, 25],
-		iconAnchor: [12, 12],
+		iconUrl: pinkBusIcon,
+		iconSize: [26, 26],
+		iconAnchor: [13, 13],
 	});
 
 	const getCurrentSpeed = (speed) => {
@@ -27,6 +27,7 @@ const VehicleMarker = (props) => {
 					setSelectedVehicle(vehicle);
 				},
 			}}
+			zIndexOffset={100}
 		>
 			<Popup>
 				<b>

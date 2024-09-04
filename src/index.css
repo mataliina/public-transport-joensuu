@@ -11,3 +11,25 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.arrow-icon {
+	position: relative;
+  }
+  
+  .arrow {
+	font-size: 20px;
+	color: red; /* Nuolen väri */
+	transition: transform 0.3s ease; /* Animaatio kääntymiseen */
+  }
+  
+  .marker {
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	z-index: 1;
+  }
+  
+  .icon {
+	width: 100%;
+	height: 100%;
+  }

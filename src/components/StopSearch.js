@@ -1,17 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StopsContext } from '../context/StopsContext';
-import { Autocomplete, TextField, List, ListItem, ListItemText, Box } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 
 const StopSearch = (props) => {
 	const { loading, stops, selectedStop, setSelectedStop, getStopName } = useContext(StopsContext);
 
-	const [selected, setSelected] = useState(stops[0]);
+	const [selected, setSelected] = useState(null);
 	const [inputValue, setInputValue] = useState('');
 
 	const handleStopChange = (event, newValue) => {
-		console.log('voimassaoleva inputValue: ', inputValue);
 		if (newValue) {
-			console.log('newValue ', newValue);
 			setSelected(newValue);
 			setSelectedStop(newValue.stop_id);
 		} else {

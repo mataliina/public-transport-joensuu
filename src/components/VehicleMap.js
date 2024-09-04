@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import VehicleMarker from './VehicleMarker';
-import { StopsContext } from '../context/StopsContext';
 import useGTFSRealtimeData from '../hooks/useGTFSRealtimeData';
 import StopInfo from './StopInfo';
 import RouteStops from './RouteStops';
@@ -10,6 +9,7 @@ import RouteSelector from './RouteSelector';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import Alert from '@mui/material/Alert';
 import StopSearch from './StopSearch';
+import RotateMarker from './RotateMarker';
 
 const VehicleMap = () => {
 	const [vehiclesOnRoute, setVehiclesOnRoute] = useState([]);
@@ -26,15 +26,14 @@ const VehicleMap = () => {
 			});
 
 			if (vehiclesOnSelectedRoute.length > 0) setVehiclesOnRoute(vehiclesOnSelectedRoute);
-			console.log('vehiclesonroute: ', vehiclesOnSelectedRoute);
 			if (vehiclesOnSelectedRoute.length === 1) setSelectedVehicle(vehiclesOnSelectedRoute[0]);
 		}
 	}, [data, selectedRoute]);
 
+	// TODO: kartan keskittäminen bussin valinnan jälkeen
 	useEffect(() => {
 		if (selectedVehicle) {
 			let newCenter = [selectedVehicle.vehicle.position.latitude, selectedVehicle.vehicle.position.longitude];
-			console.log('newCenter: ', newCenter);
 			setCenter(newCenter);
 		}
 	}, [selectedVehicle]);
@@ -46,6 +45,10 @@ const VehicleMap = () => {
 					url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 					attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
 				/>
+				{vehiclesOnRoute.length > 0 &&
+					vehiclesOnRoute.map((vehicle, index) => {
+						return <RotateMarker vehicle={vehicle} key={index} />;
+					})}
 				{vehiclesOnRoute.length > 0 &&
 					vehiclesOnRoute.map((vehicle, index) => {
 						return <VehicleMarker vehicle={vehicle} key={index} setSelectedVehicle={setSelectedVehicle} />;

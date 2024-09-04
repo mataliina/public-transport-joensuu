@@ -18,7 +18,6 @@ function useGTFSStaticData(url, interval = 5000) {
 					skipEmptyLines: true,
 					complete: (results) => {
 						const sortedData = results.data.sort((a, b) => {
-							console.log('a: ', a);
 							return a.route_short_name - b.route_short_name;
 						});
 						setData(sortedData);

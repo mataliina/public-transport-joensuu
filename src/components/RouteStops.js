@@ -5,13 +5,12 @@ import StopItem from './StopItem';
 
 const RouteStops = (props) => {
 	const { vehicle } = props;
-	const { data, loading, error } = useGTFSRealtimeData('/joensuu/api/gtfsrealtime/v1.0/feed/tripupdate');
+	const { data, loading } = useGTFSRealtimeData('/joensuu/api/gtfsrealtime/v1.0/feed/tripupdate');
 
 	const [stopsOnRoute, setStopsOnRoute] = useState([]);
 
 	useEffect(() => {
 		if (!loading && vehicle) getStopsOnRoute(vehicle);
-		console.log('stopinfo vehicle: ', vehicle);
 	}, [vehicle, loading]);
 
 	const getStopsOnRoute = (vehicle) => {
