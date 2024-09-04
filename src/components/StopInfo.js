@@ -59,7 +59,7 @@ const StopInfo = () => {
 					</div>
 				)}
 				{loading && <div>Loading stop data...</div>}
-				{stopTimes.length > 0 && !loading && (
+				{stopTimes && stopTimes.length > 0 && !loading && (
 					<List sx={{ display: 'inline-block' }}>
 						{stopTimes.map((stop, index) => {
 							return (
