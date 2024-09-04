@@ -1,6 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StopsContext } from '../context/StopsContext';
 import { Typography, List, ListItem, ListItemText, FormControlLabel, FormGroup, Checkbox } from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const StopInfo = () => {
 	const { getStopName, selectedStop, stopTimesData, loading } = useContext(StopsContext);
@@ -44,7 +48,7 @@ const StopInfo = () => {
 	return (
 		<div>
 			<div>
-				{selectedStop && (
+				{/*selectedStop && (
 					<div>
 						<Typography variant='h2' color='primary'>
 							{getStopName(selectedStop)}
@@ -57,26 +61,49 @@ const StopInfo = () => {
 							/>
 						</FormGroup>
 					</div>
-				)}
+				)*/}
 				{loading && <div>Loading stop data...</div>}
 				{stopTimes && stopTimes.length > 0 && !loading && (
-					<List sx={{ display: 'inline-block' }}>
-						{stopTimes.map((stop, index) => {
-							return (
-								<ListItem key={index} alignItems='center' dense={true}>
-									<ListItemText
-										sx={{ minWidth: '40px', color: isInFuture(stop.departure_time) ? 'info.main' : 'info.light' }}
-									>
-										{stop.routeId}{' '}
-									</ListItemText>
-									<ListItemText sx={{ color: isInFuture(stop.departure_time) ? 'text.primary' : 'text.disabled' }}>
-										{stop.departure_time}
-										{/*stop.trip_id ? (stop.trip_id.startsWith('koulu') ? ' K' : '') : ''*/}
-									</ListItemText>
-								</ListItem>
-							);
-						})}
-					</List>
+					<Accordion defaultExpanded>
+						<AccordionSummary
+							aria-controls='stop-info-panel-content'
+							id='stop-info-panel-header'
+							expandIcon={<ExpandMoreIcon />}
+							sx={{ color: 'primary.main' }}
+						>
+							<Typography variant='body1'>Lähtöajat pysäkiltä tänään</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<FormGroup>
+								<FormControlLabel
+									control={<Checkbox checked={showEarlier} onChange={handleCheckboxChange} />}
+									label='Näytä myös aikaisemmat lähdöt'
+								/>
+							</FormGroup>
+							<List sx={{ display: 'inline-block' }}>
+								{stopTimes.map((stop, index) => {
+									return (
+										<ListItem key={index} alignItems='center' dense={true}>
+											<ListItemText
+												sx={{
+													minWidth: '40px',
+													color: isInFuture(stop.departure_time) ? 'info.main' : 'info.light',
+												}}
+											>
+												{stop.routeId}{' '}
+											</ListItemText>
+											<ListItemText
+												sx={{ color: isInFuture(stop.departure_time) ? 'text.primary' : 'text.disabled' }}
+											>
+												{stop.departure_time}
+												{/*stop.trip_id ? (stop.trip_id.startsWith('koulu') ? ' K' : '') : ''*/}
+											</ListItemText>
+										</ListItem>
+									);
+								})}
+							</List>
+						</AccordionDetails>
+					</Accordion>
 				)}
 			</div>
 		</div>

@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import useGTFSRealtimeData from '../hooks/useGTFSRealtimeData';
 import { List, Typography } from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StopItem from './StopItem';
 
 const RouteStops = (props) => {
@@ -26,20 +30,32 @@ const RouteStops = (props) => {
 
 	return (
 		<div>
-			{vehicle && (
+			{/*vehicle && (
 				<div>
 					<Typography variant='h2' color='primary'>
 						{vehicle.vehicle.trip.routeId} {vehicle.vehicle.vehicle.label}
 					</Typography>
 					<Typography variant='h5'>Seuraavat pysäkit</Typography>
 				</div>
-			)}
+			)*/}
 			{stopsOnRoute.length > 0 && (
-				<List>
-					{stopsOnRoute.map((stop, index) => {
-						return <StopItem key={index} stop={stop} />;
-					})}
-				</List>
+				<Accordion defaultExpanded>
+					<AccordionSummary
+						sx={{ color: 'primary.main' }}
+						aria-controls='next-stops-panel-content'
+						id='next-stops-panel-header'
+						expandIcon={<ExpandMoreIcon />}
+					>
+						<Typography variant='body1'>Seuraavat pysäkit</Typography>
+					</AccordionSummary>
+					<AccordionDetails>
+						<List>
+							{stopsOnRoute.map((stop, index) => {
+								return <StopItem key={index} stop={stop} />;
+							})}
+						</List>
+					</AccordionDetails>
+				</Accordion>
 			)}
 		</div>
 	);
