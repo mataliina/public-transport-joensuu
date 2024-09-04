@@ -32,24 +32,22 @@ const StopSearch = (props) => {
 	return (
 		<div>
 			{stops && (
-				<div>
-					<Autocomplete
-						id='stop-select'
-						value={selected}
-						inputValue={inputValue}
-						options={stops}
-						getOptionLabel={(option) => option.stop_name}
-						style={{ width: '100%' }}
-						renderInput={(params) => <TextField {...params} label='Hae pysäkkiä' variant='outlined' />}
-						onChange={handleStopChange}
-						onInputChange={(event, newInputValue) => {
-							if (event?.type === 'change') {
-								setInputValue(newInputValue);
-							}
-						}}
-						isOptionEqualToValue={(option, value) => value === undefined || option.stop_id === value.stop_id}
-					/>
-				</div>
+				<Autocomplete
+					id='stop-select'
+					value={selected}
+					inputValue={inputValue}
+					options={stops}
+					getOptionLabel={(option) => option.stop_name}
+					style={{ width: '100%' }}
+					renderInput={(params) => <TextField {...params} label='Hae pysäkkiä' variant='outlined' />}
+					onChange={handleStopChange}
+					onInputChange={(event, newInputValue) => {
+						if (event?.type === 'change') {
+							setInputValue(newInputValue);
+						}
+					}}
+					isOptionEqualToValue={(option, value) => value === undefined || option.stop_id === value.stop_id}
+				/>
 			)}
 			{/*selectedStop && (
 				<List>
