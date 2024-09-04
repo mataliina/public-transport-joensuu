@@ -27,9 +27,12 @@ const RouteStops = (props) => {
 	return (
 		<div>
 			{vehicle && (
-				<Typography variant='h2' color='primary'>
-					{vehicle.vehicle.trip.routeId} {vehicle.vehicle.vehicle.label}
-				</Typography>
+				<div>
+					<Typography variant='h2' color='primary'>
+						{vehicle.vehicle.trip.routeId} {vehicle.vehicle.vehicle.label}
+					</Typography>
+					<Typography variant='h5'>Seuraavat pysäkit</Typography>
+				</div>
 			)}
 			{stopsOnRoute.length > 0 && (
 				<List>
