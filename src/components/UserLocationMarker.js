@@ -13,15 +13,17 @@ const UserLocationMarker = () => {
 
 	useEffect(() => {
 		if (navigator.geolocation) {
-			navigator.geolocation.watchPosition(
+			const watchId = navigator.geolocation.watchPosition(
 				(position) => {
 					const { latitude, longitude } = position.coords;
 					setUserPosition([latitude, longitude]);
 				},
-				() => {
-					console.error("Failed to obtain the user's location");
-				}
+				(error) => {
+					console.error('Error watching position:', error);
+				},
+				{ enableHighAccuracy: true }
 			);
+			return () => navigator.geolocation.clearWatch(watchId);
 		}
 	}, []);
 
