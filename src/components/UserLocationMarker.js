@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import L from 'leaflet';
 import { Marker } from 'react-leaflet';
-import { useMap } from 'react-leaflet';
 import userMarker from '../images/pink_marker_down.png';
 
 const UserLocationMarker = () => {
@@ -14,9 +13,8 @@ const UserLocationMarker = () => {
 
 	useEffect(() => {
 		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(
+			navigator.geolocation.watchPosition(
 				(position) => {
-					console.log('position: ', position.coords);
 					const { latitude, longitude } = position.coords;
 					setUserPosition([latitude, longitude]);
 				},

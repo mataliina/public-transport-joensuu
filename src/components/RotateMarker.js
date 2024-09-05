@@ -20,7 +20,7 @@ const RotateMarker = (props) => {
 	useEffect(() => {
 		const arrowElement = document.querySelector('.arrow');
 		if (arrowElement) {
-			arrowElement.style.transform = `rotate(${vehicle.vehicle.position.bearing}deg)`; // Käännä nuoli bearing-arvon mukaan
+			arrowElement.style.transform = `rotate(${vehicle.vehicle.position.bearing}deg)`;
 		}
 	}, [vehicle]);
 
