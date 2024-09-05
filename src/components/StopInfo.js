@@ -5,13 +5,13 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { RoutesContext } from '../context/RoutesContext';
 
 const StopInfo = () => {
-	const { getStopName, selectedStop, stopTimesData, loading } = useContext(StopsContext);
-	// hae stop_times.txt -tiedostosta halutun pysäkin pysähdysajat,
-	// mahdollisuus selata edelliset/seuraavat
+	const { stopTimesData, loading } = useContext(StopsContext);
 	const [showEarlier, setShowEarlier] = useState(false);
 	const [stopTimes, setStopTimes] = useState(null);
+	const { getRouteShortName } = useContext(RoutesContext);
 
 	const isInFuture = (time) => {
 		if (time) {
@@ -75,7 +75,7 @@ const StopInfo = () => {
 												color: isInFuture(stop.departure_time) ? 'info.main' : 'info.light',
 											}}
 										>
-											{stop.routeId}{' '}
+											{getRouteShortName(stop.routeId)}{' '}
 										</ListItemText>
 										<ListItemText sx={{ color: isInFuture(stop.departure_time) ? 'text.primary' : 'text.disabled' }}>
 											{stop.departure_time}
