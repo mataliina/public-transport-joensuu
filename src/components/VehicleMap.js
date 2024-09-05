@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-import VehicleMarker from './VehicleMarker';
 import useGTFSRealtimeData from '../hooks/useGTFSRealtimeData';
 import StopInfo from './StopInfo';
 import RouteStops from './RouteStops';
@@ -10,22 +7,7 @@ import RouteSelector from './RouteSelector';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import Alert from '@mui/material/Alert';
 import StopSearch from './StopSearch';
-import RotateMarker from './RotateMarker';
-
-const FitBounds = ({ positions }) => {
-	const map = useMap();
-	const previousBounds = useRef(positions);
-	useEffect(() => {
-		if (positions.length > 0 && positions !== previousBounds.current) {
-			const bounds = L.latLngBounds(positions);
-			//map.fitBounds(bounds, { padding: [25, 25] });
-			const padding = [22, 22];
-			const maxZoom = positions.length > 1 ? null : 16;
-			map.flyToBounds(bounds, { padding, maxZoom });
-		}
-	}, [positions, map]);
-	return null;
-};
+import MapComponent from './MapComponent';
 
 const VehicleMap = () => {
 	const [vehiclesOnRoute, setVehiclesOnRoute] = useState([]);
@@ -60,21 +42,7 @@ const VehicleMap = () => {
 
 	return (
 		<Grid2 container rowSpacing={2} columnSpacing={1}>
-			<MapContainer center={[62.600785, 29.763171]} zoom={13} style={{ height: '70vh', width: '100%' }}>
-				<TileLayer
-					url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-					attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
-				/>
-				{vehiclesOnRoute.length > 0 &&
-					vehiclesOnRoute.map((vehicle, index) => {
-						return <RotateMarker vehicle={vehicle} key={index} />;
-					})}
-				{vehiclesOnRoute.length > 0 &&
-					vehiclesOnRoute.map((vehicle, index) => {
-						return <VehicleMarker vehicle={vehicle} key={index} setSelectedVehicle={setSelectedVehicle} />;
-					})}
-				<FitBounds positions={busPositions} />
-			</MapContainer>
+			<MapComponent vehiclesOnRoute={vehiclesOnRoute} busPositions={busPositions} setSelectedVehicle={setSelectedVehicle} />
 			<Grid2 container spacing={2} xs={12}>
 				<Grid2 xs={12} md={6}>
 					<RouteSelector
