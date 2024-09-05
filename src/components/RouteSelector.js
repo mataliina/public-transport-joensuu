@@ -11,7 +11,6 @@ const RouteSelector = (props) => {
 
 	const handleRouteSelect = (event) => {
 		const value = event.target.value;
-		console.log('value: ', value);
 		setSelectedRoute(value);
 		setBusPositionsChanged(true);
 		setSelectedVehicle(null);

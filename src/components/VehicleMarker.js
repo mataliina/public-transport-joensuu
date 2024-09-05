@@ -15,7 +15,8 @@ const VehicleMarker = (props) => {
 	});
 
 	const getCurrentSpeed = (speed) => {
-		return (speed * 3.6).toFixed(2);
+		//return (speed * 3.6).toFixed(2);
+		return Math.round(speed * 3.6);
 	};
 
 	return (
