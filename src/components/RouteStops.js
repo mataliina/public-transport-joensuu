@@ -6,10 +6,11 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StopItem from './StopItem';
+import { TRIPUPDATE_DATA_URL } from '../utils/dataUrls';
 
 const RouteStops = (props) => {
 	const { vehicle } = props;
-	const { data, loading } = useGTFSRealtimeData('/joensuu/api/gtfsrealtime/v1.0/feed/tripupdate');
+	const { data, loading } = useGTFSRealtimeData(TRIPUPDATE_DATA_URL);
 
 	const [stopsOnRoute, setStopsOnRoute] = useState([]);
 
