@@ -15,17 +15,21 @@ const RouteStops = (props) => {
 
 	useEffect(() => {
 		if (!loading && vehicle) getStopsOnRoute(vehicle);
-	}, [vehicle, loading]);
+	}, [vehicle, loading, data]);
 
 	const getStopsOnRoute = (vehicle) => {
 		if (data && vehicle) {
 			let tripOnRoute = data.entity.find((entity) => {
+				if (entity.tripUpdate.trip.tripId === vehicle.vehicle.trip.tripId) {
+					console.log('entity.tripUpdate: ', entity.tripUpdate);
+				}
 				return entity.tripUpdate.trip.tripId === vehicle.vehicle.trip.tripId;
 			});
 			setStopsOnRoute(tripOnRoute.tripUpdate.stopTimeUpdate);
 		}
 	};
 
+	console.log('vehicle: ', vehicle);
 	if (loading) return <p>Loading stops...</p>;
 
 	return (
@@ -40,13 +44,11 @@ const RouteStops = (props) => {
 			)*/}
 			{stopsOnRoute.length > 0 && (
 				<Accordion defaultExpanded>
-					<AccordionSummary
-						sx={{ color: 'primary.main' }}
-						aria-controls='next-stops-panel-content'
-						id='next-stops-panel-header'
-						expandIcon={<ExpandMoreIcon />}
-					>
-						<Typography variant='body1'>Seuraavat pysäkit</Typography>
+					<AccordionSummary aria-controls='next-stops-panel-content' id='next-stops-panel-header' expandIcon={<ExpandMoreIcon />}>
+						<Typography variant='body1' sx={{ color: 'primary.main', marginRight: '5px' }}>
+							{vehicle.vehicle.vehicle.label}
+						</Typography>
+						<Typography variant='body1'>seuraavat pysäkit</Typography>
 					</AccordionSummary>
 					<AccordionDetails>
 						<List>
