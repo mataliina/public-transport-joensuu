@@ -26,7 +26,7 @@ const RouteStops = (props) => {
 		}
 	};
 
-	if (loading) return <p>Loading stops...</p>;
+	if (loading) return <Typography variant='body1'>Haetaan pysäkkejä...</Typography>;
 
 	return (
 		<div>
@@ -41,7 +41,7 @@ const RouteStops = (props) => {
 			{stopsOnRoute.length > 0 && (
 				<Accordion defaultExpanded>
 					<AccordionSummary aria-controls='next-stops-panel-content' id='next-stops-panel-header' expandIcon={<ExpandMoreIcon />}>
-						<Typography variant='body1' sx={{ color: 'primary.main', marginRight: '5px' }}>
+						<Typography variant='body1' sx={{ color: 'primary.main', marginRight: '5px', fontWeight: 'bold' }}>
 							{vehicle.vehicle.vehicle.label}
 						</Typography>
 						<Typography variant='body1'>seuraavat pysäkit</Typography>

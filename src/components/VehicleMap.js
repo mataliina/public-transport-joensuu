@@ -28,9 +28,7 @@ const VehicleMap = () => {
 		const selectedRoutesCookie = getCookie('selectedRoutes');
 		if (selectedRoutesCookie) {
 			setSelectedRoute(selectedRoutesCookie);
-		} else {
-			console.log('Ei valittuja reittejä tallennettuna.');
-		}
+		} 
 	}, []);
 
 	useEffect(() => {

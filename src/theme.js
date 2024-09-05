@@ -2,6 +2,7 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
 	typography: {
+		fontFamily: 'Nunito, sans-serif',
 		h1: {
 			fontSize: '2.5rem',
 		},
@@ -17,50 +18,36 @@ const theme = createTheme({
 	},
 	palette: {
 		primary: {
-			main: '#1976d2', // Pääväri (sininen)
-			light: '#63a4ff', // Vaaleampi versio pääväristä
-			dark: '#004ba0', // Tummempi versio pääväristä
-			contrastText: '#ffffff', // Tekstin väri päävärillä
+			main: '#5C5470', // Tumma murrettu violetti
+			light: '#7E7394', // Vaaleampi violetti
+			dark: '#403651', // Tummempi violetti
+			contrastText: '#FFFFFF', // Tekstin väri
 		},
 		secondary: {
-			main: '#dc004e', // Toinen pääväri (punainen)
-			light: '#ff616f', // Vaaleampi versio toissijaisesta väristä
-			dark: '#9a0036', // Tummempi versio toissijaisesta väristä
-			contrastText: '#ffffff', // Tekstin väri toissijaisella värillä
-		},
-		error: {
-			main: '#f44336', // Virheväri
-			light: '#e57373',
-			dark: '#d32f2f',
-			contrastText: '#ffffff',
-		},
-		warning: {
-			main: '#ffa726', // Varoitusväri
-			light: '#ffb74d',
-			dark: '#f57c00',
-			contrastText: '#000000',
-		},
-		info: {
-			main: '#2196f3', // Informatiivinen väri
-			light: '#64b5f6',
-			dark: '#1976d2',
-			contrastText: '#ffffff',
-		},
-		success: {
-			main: '#4caf50', // Onnistumista symboloiva väri
-			light: '#81c784',
-			dark: '#388e3c',
-			contrastText: '#ffffff',
+			main: '#FF6F91', // Pinkki pääväri
+			light: '#FFA0B5', // Vaaleampi pinkki
+			dark: '#C43D67', // Tummempi pinkki
+			contrastText: '#FFFFFF', // Tekstin väri
 		},
 		background: {
-			default: '#f5f5f5', // Sovelluksen taustaväri
-			paper: '#ffffff', // Paper-komponenttien taustaväri
+			default: '#F2F2F2', // Neutraali taustaväri
+			paper: '#FFFFFF', // Paperin (korttien) väri
 		},
 		text: {
-			primary: '#333333', // Pääteksti
-			secondary: '#777777', // Toissijainen teksti
-			disabled: '#9e9e9e', // Poistettu käytöstä oleva teksti
-			hint: '#8c8c8c', // Vihjeteksti
+			primary: '#333333', // Ensisijainen tekstin väri
+			secondary: '#666666', // Toissijainen tekstin väri
+		},
+		error: {
+			main: '#E57373',
+		},
+		warning: {
+			main: '#FFA726',
+		},
+		info: {
+			main: '#64B5F6',
+		},
+		success: {
+			main: '#81C784',
 		},
 	},
 });

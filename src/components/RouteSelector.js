@@ -12,7 +12,6 @@ const RouteSelector = (props) => {
 
 	const handleRouteSelect = (event) => {
 		const value = event.target.value;
-		console.log('value: ', value);
 		setSelectedRoute(value.split(','));
 		setBusPositionsChanged(true);
 		setSelectedVehicle(null);
@@ -29,7 +28,7 @@ const RouteSelector = (props) => {
 						{data.map((route, index) => {
 							return (
 								<MenuItem key={index} value={route.route_ids.join(',')}>
-									<Typography variant='body' sx={{ color: 'info.main', mr: 2, fontWeight: 'bold' }}>
+									<Typography variant='body' sx={{ color: 'primary.main', mr: 2, fontWeight: 'bold' }}>
 										{route.route_short_name}
 									</Typography>{' '}
 									<Typography variant='body' sx={{ mr: 2 }}>
