@@ -14,7 +14,7 @@ import { Typography } from '@mui/material';
 const VehicleMap = () => {
 	const [vehiclesOnRoute, setVehiclesOnRoute] = useState([]);
 	const [selectedVehicle, setSelectedVehicle] = useState(null);
-	const [selectedRoute, setSelectedRoute] = useState([]);
+	const [selectedRoute, setSelectedRoute] = useState('');
 	const [loadingVehicles, setLoadingVehicles] = useState(false);
 	const [busPositionsChanged, setBusPositionsChanged] = useState(false); // for setting bounds for map only after user selected new route
 	const [busPositions, setBusPositions] = useState([
@@ -70,7 +70,7 @@ const VehicleMap = () => {
 						setVehiclesOnRoute={setVehiclesOnRoute}
 					/>
 					{(loadingVehicles || loading) && <Typography variant='body1'>Haetaan tietoja...</Typography>}
-					{!loading && !loadingVehicles && vehiclesOnRoute.length === 0 && selectedRoute !== '' && (
+					{!loading && !loadingVehicles && vehiclesOnRoute.length === 0 && selectedRoute.length > 0 && (
 						<Alert severity='warning'>Linjalla ei ole liikennettä juuri nyt</Alert>
 					)}
 					{!loading && !loadingVehicles && vehiclesOnRoute.length > 1 && selectedVehicle === null && (
