@@ -1,3 +1,5 @@
+/* NOT IN USE */
+
 import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import routes from '../staticlinjat/routes.txt';

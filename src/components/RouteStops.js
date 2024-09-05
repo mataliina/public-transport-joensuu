@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import useGTFSRealtimeData from '../hooks/useGTFSRealtimeData';
 import { List, Typography } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
@@ -6,11 +6,13 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StopItem from './StopItem';
+import { RoutesContext } from '../context/RoutesContext';
 import { TRIPUPDATE_DATA_URL } from '../utils/dataUrls';
 
 const RouteStops = (props) => {
 	const { vehicle } = props;
 	const { data, loading } = useGTFSRealtimeData(TRIPUPDATE_DATA_URL);
+	const { getRouteShortName } = useContext(RoutesContext);
 
 	const [stopsOnRoute, setStopsOnRoute] = useState([]);
 
@@ -35,20 +37,14 @@ const RouteStops = (props) => {
 	};
 
 	if (loading) return <Typography variant='body1'>Haetaan pysäkkejä...</Typography>;
-
 	return (
 		<div>
-			{/*vehicle && (
-				<div>
-					<Typography variant='h2' color='primary'>
-						{vehicle.vehicle.trip.routeId} {vehicle.vehicle.vehicle.label}
-					</Typography>
-					<Typography variant='h5'>Seuraavat pysäkit</Typography>
-				</div>
-			)*/}
 			{stopsOnRoute.length > 0 && (
 				<Accordion defaultExpanded>
 					<AccordionSummary aria-controls='next-stops-panel-content' id='next-stops-panel-header' expandIcon={<ExpandMoreIcon />}>
+						<Typography variant='body1' sx={{ marginRight: '5px' }}>
+							{getRouteShortName(vehicle.vehicle.trip.routeId)}
+						</Typography>
 						<Typography variant='body1' sx={{ color: 'primary.main', marginRight: '5px', fontWeight: 'bold' }}>
 							{vehicle.vehicle.vehicle.label}
 						</Typography>

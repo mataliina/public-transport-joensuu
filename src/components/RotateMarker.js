@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Marker, useMap } from 'react-leaflet';
+import { Marker } from 'react-leaflet';
 import L from 'leaflet';
 import markerIcon from '../images/arrow_thin.png';
 import 'leaflet-rotatedmarker';

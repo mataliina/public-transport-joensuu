@@ -14,7 +14,7 @@ import { Typography } from '@mui/material';
 const VehicleMap = () => {
 	const [vehiclesOnRoute, setVehiclesOnRoute] = useState([]);
 	const [selectedVehicle, setSelectedVehicle] = useState(null);
-	const [selectedRoute, setSelectedRoute] = useState('');
+	const [selectedRoute, setSelectedRoute] = useState([]);
 	const [loadingVehicles, setLoadingVehicles] = useState(false);
 	const [busPositionsChanged, setBusPositionsChanged] = useState(false); // for setting bounds for map only after user selected new route
 	const [busPositions, setBusPositions] = useState([
@@ -28,15 +28,20 @@ const VehicleMap = () => {
 		const selectedRoutesCookie = getCookie('selectedRoutes');
 		if (selectedRoutesCookie) {
 			setSelectedRoute(selectedRoutesCookie);
-		} 
+		}
 	}, []);
 
 	useEffect(() => {
 		if (data && selectedRoute) {
 			setLoadingVehicles(true);
-			let vehiclesOnSelectedRoute = data.entity.filter((entity) => {
-				return selectedRoute.includes(entity.vehicle.trip.routeId);
-			});
+			let vehiclesOnSelectedRoute;
+			if (selectedRoute === 'all' || selectedRoute.includes('all')) {
+				vehiclesOnSelectedRoute = data.entity;
+			} else {
+				vehiclesOnSelectedRoute = data.entity.filter((entity) => {
+					return selectedRoute.includes(entity.vehicle.trip.routeId);
+				});
+			}
 
 			if (vehiclesOnSelectedRoute.length > 0) setVehiclesOnRoute(vehiclesOnSelectedRoute);
 			if (vehiclesOnSelectedRoute.length === 1) setSelectedVehicle(vehiclesOnSelectedRoute[0]);

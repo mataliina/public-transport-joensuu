@@ -5,14 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { StopsProvider } from './context/StopsContext';
 import { ErrorBoundary } from 'react-error-boundary';
+import { RoutesProvider } from './context/RoutesContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<React.StrictMode>
 		<ErrorBoundary fallback={<div>Something went wrong</div>}>
-			<StopsProvider>
-				<App />
-			</StopsProvider>
+			<RoutesProvider>
+				<StopsProvider>
+					<App />
+				</StopsProvider>
+			</RoutesProvider>
 		</ErrorBoundary>
 	</React.StrictMode>
 );

@@ -5,9 +5,11 @@ import FormControl from '@mui/material/FormControl';
 import { InputLabel, Typography } from '@mui/material';
 import Select from '@mui/material/Select';
 import { setCookie } from '../utils/cookies';
+import { useContext } from 'react';
+import { RoutesContext } from '../context/RoutesContext';
 
 const RouteSelector = (props) => {
-	const { data, loading } = useGTFSStaticData(routeUrl);
+	const { routesData, loading } = useContext(RoutesContext);
 	const { setSelectedRoute, setSelectedVehicle, setVehiclesOnRoute, selectedRoute, setBusPositionsChanged } = props;
 
 	const handleRouteSelect = (event) => {
@@ -21,14 +23,19 @@ const RouteSelector = (props) => {
 
 	return (
 		<div>
-			{!loading && data && (
+			{!loading && routesData && (
 				<FormControl fullWidth>
 					<InputLabel id='route-select-label'>Valitse linja</InputLabel>
 					<Select onChange={handleRouteSelect} id='route-select' value={selectedRoute} displayEmpty>
-						{data.map((route, index) => {
+						<MenuItem key={999} value={'all'}>
+							<Typography variant='body' sx={{ color: 'main.dark', mr: 2, fontWeight: 'bold' }}>
+								Näytä kaikki linjat
+							</Typography>
+						</MenuItem>
+						{routesData.map((route, index) => {
 							return (
 								<MenuItem key={index} value={route.route_ids.join(',')}>
-									<Typography variant='body' sx={{ color: 'primary.main', mr: 2, fontWeight: 'bold' }}>
+									<Typography variant='body' sx={{ color: 'main.dark', mr: 2, fontWeight: 'bold' }}>
 										{route.route_short_name}
 									</Typography>{' '}
 									<Typography variant='body' sx={{ mr: 2 }}>

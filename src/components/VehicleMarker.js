@@ -3,10 +3,12 @@ import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import pinkBusIcon from '../images/pink_bus.png';
 import { StopsContext } from '../context/StopsContext';
+import { RoutesContext } from '../context/RoutesContext';
 
 const VehicleMarker = (props) => {
 	const { vehicle, setSelectedVehicle } = props;
 	const { getStopName } = useContext(StopsContext);
+	const { getRouteShortName } = useContext(RoutesContext);
 
 	const busIcon = L.icon({
 		iconUrl: pinkBusIcon,
@@ -32,7 +34,7 @@ const VehicleMarker = (props) => {
 		>
 			<Popup>
 				<b>
-					{vehicle.vehicle.trip.routeId} {vehicle.vehicle.vehicle.label}
+					{getRouteShortName(vehicle.vehicle.trip.routeId)} {vehicle.vehicle.vehicle.label}
 				</b>
 				<br />
 

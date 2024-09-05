@@ -177,7 +177,7 @@ export const StopsProvider = ({ children }) => {
 		setStopTimesData(sortedStopTimes);
 		return sortedStopTimes;
 	};
-
+	/*
 	const fetchStopTimesForStop = async (stopId) => {
 		setLoading(true);
 		const stopTimesResponse = await fetch(stopTimesDataUrl);
@@ -215,10 +215,10 @@ export const StopsProvider = ({ children }) => {
 			},
 		});
 	};
-
+*/
 	const getStopName = (stopId) => {
 		const currentStop = stops.find((stop) => stop.stop_id === stopId);
-		return currentStop ? currentStop.stop_name : 'Stop name not found in context';
+		return currentStop ? currentStop.stop_name : 'Stop name not found';
 	};
 
 	return (
