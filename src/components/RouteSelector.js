@@ -1,5 +1,3 @@
-import useGTFSStaticData from '../hooks/useGTFSStaticData';
-import routeUrl from '../staticlinjat/routes.txt';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { InputLabel, Typography } from '@mui/material';
