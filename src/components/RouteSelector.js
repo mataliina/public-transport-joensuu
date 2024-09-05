@@ -4,6 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { InputLabel, Typography } from '@mui/material';
 import Select from '@mui/material/Select';
+import { setCookie } from '../utils/cookies';
 
 const RouteSelector = (props) => {
 	const { data, loading } = useGTFSStaticData(routeUrl);
@@ -11,10 +12,12 @@ const RouteSelector = (props) => {
 
 	const handleRouteSelect = (event) => {
 		const value = event.target.value;
-		setSelectedRoute(value);
+		console.log('value: ', value);
+		setSelectedRoute(value.split(','));
 		setBusPositionsChanged(true);
 		setSelectedVehicle(null);
 		setVehiclesOnRoute([]);
+		setCookie('selectedRoutes', value, 7);
 	};
 
 	return (
@@ -25,7 +28,7 @@ const RouteSelector = (props) => {
 					<Select onChange={handleRouteSelect} id='route-select' value={selectedRoute} displayEmpty>
 						{data.map((route, index) => {
 							return (
-								<MenuItem key={index} value={route.route_ids}>
+								<MenuItem key={index} value={route.route_ids.join(',')}>
 									<Typography variant='body' sx={{ color: 'info.main', mr: 2, fontWeight: 'bold' }}>
 										{route.route_short_name}
 									</Typography>{' '}

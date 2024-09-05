@@ -8,21 +8,34 @@ import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import Alert from '@mui/material/Alert';
 import StopSearch from './StopSearch';
 import MapComponent from './MapComponent';
+import { getCookie } from '../utils/cookies';
+import { Typography } from '@mui/material';
 
 const VehicleMap = () => {
 	const [vehiclesOnRoute, setVehiclesOnRoute] = useState([]);
 	const [selectedVehicle, setSelectedVehicle] = useState(null);
 	const [selectedRoute, setSelectedRoute] = useState('');
-	const [busPositionsChanged, setBusPositionsChanged] = useState(false);
+	const [loadingVehicles, setLoadingVehicles] = useState(false);
+	const [busPositionsChanged, setBusPositionsChanged] = useState(false); // for setting bounds for map only after user selected new route
 	const [busPositions, setBusPositions] = useState([
 		[62.605051, 29.743884],
 		[62.599988, 29.774635],
 	]); // Joensuu city center [62.600785, 29.763171]
 
-	const { data } = useGTFSRealtimeData('/joensuu/api/gtfsrealtime/v1.0/feed/vehicleposition', 2000);
+	const { data, loading } = useGTFSRealtimeData('/joensuu/api/gtfsrealtime/v1.0/feed/vehicleposition', 2000);
+
+	useEffect(() => {
+		const selectedRoutesCookie = getCookie('selectedRoutes');
+		if (selectedRoutesCookie) {
+			setSelectedRoute(selectedRoutesCookie);
+		} else {
+			console.log('Ei valittuja reittejä tallennettuna.');
+		}
+	}, []);
 
 	useEffect(() => {
 		if (data && selectedRoute) {
+			setLoadingVehicles(true);
 			let vehiclesOnSelectedRoute = data.entity.filter((entity) => {
 				return selectedRoute.includes(entity.vehicle.trip.routeId);
 			});
@@ -37,6 +50,7 @@ const VehicleMap = () => {
 				setBusPositions(newPositions);
 				setBusPositionsChanged(false);
 			}
+			setLoadingVehicles(false);
 		}
 	}, [data, selectedRoute, selectedVehicle]);
 
@@ -52,10 +66,11 @@ const VehicleMap = () => {
 						setSelectedVehicle={setSelectedVehicle}
 						setVehiclesOnRoute={setVehiclesOnRoute}
 					/>
-					{vehiclesOnRoute.length === 0 && selectedRoute !== '' && (
+					{(loadingVehicles || loading) && <Typography variant='body1'>Haetaan tietoja...</Typography>}
+					{!loading && !loadingVehicles && vehiclesOnRoute.length === 0 && selectedRoute !== '' && (
 						<Alert severity='warning'>Linjalla ei ole liikennettä juuri nyt</Alert>
 					)}
-					{vehiclesOnRoute.length > 1 && selectedVehicle === null && (
+					{!loading && !loadingVehicles && vehiclesOnRoute.length > 1 && selectedVehicle === null && (
 						<Alert severity='info'>Valitse bussi kartalta nähdäksesi seuraavat pysäkit</Alert>
 					)}
 					{selectedVehicle && <RouteStops vehicle={selectedVehicle} />}
