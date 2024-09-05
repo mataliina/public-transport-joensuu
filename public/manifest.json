@@ -1,6 +1,6 @@
 {
 	"short_name": "joensuu_buses",
-	"name": "Joensuu buses on the map",
+	"name": "Joensuun bussit kartalla",
 	"icons": [
 		{
 			"src": "./favicons/favicon.ico",
