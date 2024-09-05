@@ -20,16 +20,12 @@ const RouteStops = (props) => {
 	const getStopsOnRoute = (vehicle) => {
 		if (data && vehicle) {
 			let tripOnRoute = data.entity.find((entity) => {
-				if (entity.tripUpdate.trip.tripId === vehicle.vehicle.trip.tripId) {
-					console.log('entity.tripUpdate: ', entity.tripUpdate);
-				}
 				return entity.tripUpdate.trip.tripId === vehicle.vehicle.trip.tripId;
 			});
 			setStopsOnRoute(tripOnRoute.tripUpdate.stopTimeUpdate);
 		}
 	};
 
-	console.log('vehicle: ', vehicle);
 	if (loading) return <p>Loading stops...</p>;
 
 	return (
