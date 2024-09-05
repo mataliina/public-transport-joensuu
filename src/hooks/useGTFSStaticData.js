@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import routes from '../staticlinjat/routes.txt';
 
-function useGTFSStaticData(url, interval = 5000) {
+function useGTFSStaticData(url) {
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
@@ -20,7 +20,28 @@ function useGTFSStaticData(url, interval = 5000) {
 						const sortedData = results.data.sort((a, b) => {
 							return a.route_short_name - b.route_short_name;
 						});
-						setData(sortedData);
+
+						const groupedData = sortedData.reduce((acc, route) => {
+							const { route_short_name, route_id } = route;
+							if (!acc[route_short_name]) {
+								acc[route_short_name] = {
+									route_short_name,
+									routes: [],
+									route_ids: [],
+								};
+							}
+							acc[route_short_name].routes.push(route);
+							acc[route_short_name].route_ids.push(route_id);
+							return acc;
+						}, {});
+
+						const groupedArray = Object.keys(groupedData).map((route_short_name) => ({
+							route_short_name,
+							routes: groupedData[route_short_name].routes,
+							route_ids: groupedData[route_short_name].route_ids,
+						}));
+
+						setData(groupedArray);
 						setLoading(false);
 					},
 					error: (error) => {
@@ -38,7 +59,7 @@ function useGTFSStaticData(url, interval = 5000) {
 		/*
 		const intervalId = setInterval(fetchData, interval);
 		return () => clearInterval(intervalId);*/
-	}, [url, interval]);
+	}, [url]);
 
 	return { data, loading, error };
 }

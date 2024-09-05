@@ -18,7 +18,9 @@ const StopItem = (props) => {
 				<span>
 					{stop.departure
 						? new Date(stop.departure.time * 1000).toLocaleTimeString()
-						: `Saapuu: ${new Date(stop.arrival.time * 1000).toLocaleTimeString()}`}
+						: stop.arrival
+						? `Saapuu: ${new Date(stop.arrival.time * 1000).toLocaleTimeString()}`
+						: ''}
 				</span>
 			</ListItemText>
 		</ListItemButton>

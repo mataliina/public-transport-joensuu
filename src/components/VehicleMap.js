@@ -24,7 +24,7 @@ const VehicleMap = () => {
 	useEffect(() => {
 		if (data && selectedRoute) {
 			let vehiclesOnSelectedRoute = data.entity.filter((entity) => {
-				return entity.vehicle.trip.routeId === selectedRoute;
+				return selectedRoute.includes(entity.vehicle.trip.routeId);
 			});
 
 			if (vehiclesOnSelectedRoute.length > 0) setVehiclesOnRoute(vehiclesOnSelectedRoute);
