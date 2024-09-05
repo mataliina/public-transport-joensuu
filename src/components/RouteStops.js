@@ -20,9 +20,16 @@ const RouteStops = (props) => {
 	const getStopsOnRoute = (vehicle) => {
 		if (data && vehicle) {
 			let tripOnRoute = data.entity.find((entity) => {
-				return entity.tripUpdate.trip.tripId === vehicle.vehicle.trip.tripId;
+				if (entity.tripUpdate) {
+					return entity.tripUpdate.trip.tripId === vehicle.vehicle.trip.tripId;
+				}
+				return null;
 			});
-			setStopsOnRoute(tripOnRoute.tripUpdate.stopTimeUpdate);
+			if (tripOnRoute) {
+				setStopsOnRoute(tripOnRoute.tripUpdate.stopTimeUpdate);
+			} else {
+				setStopsOnRoute([]);
+			}
 		}
 	};
 
