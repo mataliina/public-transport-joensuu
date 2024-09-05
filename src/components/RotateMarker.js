@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Marker } from 'react-leaflet';
 import L from 'leaflet';
-import markerIcon from '../images/violet_marker.png';
+import markerIcon from '../images/arrow_thin.png';
 
 const RotateMarker = (props) => {
 	const markerRef = useRef();
@@ -12,8 +12,8 @@ const RotateMarker = (props) => {
 		return L.divIcon({
 			className: 'arrow-icon',
 			html: `<div class="marker" style="transform: rotate(${bearing}deg);"><img src="${markerIcon}" alt="Icon" class="icon" /></div>`, // HTML nuolella
-			iconSize: [23, 26],
-			iconAnchor: [19, 17],
+			iconSize: [20, 25],
+			iconAnchor: [19, 19],
 		});
 	};
 

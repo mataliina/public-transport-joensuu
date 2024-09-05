@@ -7,11 +7,12 @@ import Select from '@mui/material/Select';
 
 const RouteSelector = (props) => {
 	const { data, loading } = useGTFSStaticData(routeUrl);
-	const { setSelectedRoute, setSelectedVehicle, setVehiclesOnRoute, selectedRoute } = props;
+	const { setSelectedRoute, setSelectedVehicle, setVehiclesOnRoute, selectedRoute, setBusPositionsChanged } = props;
 
 	const handleRouteSelect = (event) => {
 		const value = event.target.value;
 		setSelectedRoute(value);
+		setBusPositionsChanged(true);
 		setSelectedVehicle(null);
 		setVehiclesOnRoute([]);
 	};
