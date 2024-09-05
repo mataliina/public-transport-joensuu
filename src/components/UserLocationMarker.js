@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import L from 'leaflet';
-import { Marker } from 'react-leaflet';
+import { Marker, useMap } from 'react-leaflet';
 import userMarker from '../images/pink_marker_down.png';
 
-const UserLocationMarker = () => {
-	const [userPosition, setUserPosition] = useState(null);
+const UserLocationMarker = (props) => {
+	const { userPosition } = props;
+	const map = useMap();
+	const hasCenteredRef = useRef(false);
 
 	const userLocationIcon = new L.Icon({
 		iconUrl: userMarker,
@@ -12,29 +14,11 @@ const UserLocationMarker = () => {
 	});
 
 	useEffect(() => {
-		if (navigator.geolocation) {
-			const watchId = navigator.geolocation.watchPosition(
-				(position) => {
-					const { latitude, longitude } = position.coords;
-					setUserPosition([latitude, longitude]);
-				},
-				(error) => {
-					console.error('Error watching position:', error);
-				},
-				{ enableHighAccuracy: true }
-			);
-			return () => navigator.geolocation.clearWatch(watchId);
-		}
-	}, []);
-
-	/*
-	const map = useMap();
-	
-	useEffect(() => {
-		if (userPosition) {
+		if (userPosition && !hasCenteredRef.current) {
 			map.flyTo(userPosition, 13);
+			hasCenteredRef.current = true;
 		}
-	}, [map, userPosition]);*/
+	}, [map, userPosition]);
 
 	return userPosition === null ? null : <Marker position={userPosition} icon={userLocationIcon} />;
 };

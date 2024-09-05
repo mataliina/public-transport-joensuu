@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import useGTFSRealtimeData from '../hooks/useGTFSRealtimeData';
 import StopInfo from './StopInfo';

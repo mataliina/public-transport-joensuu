@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import RotateMarker from './RotateMarker';
@@ -9,6 +9,7 @@ const FitBounds = ({ positions }) => {
 	const map = useMap();
 	const previousBounds = useRef(positions);
 	useEffect(() => {
+		// Only used if the user has set a new line to be tracked
 		if (positions.length > 0 && positions !== previousBounds.current) {
 			const bounds = L.latLngBounds(positions);
 			//map.fitBounds(bounds, { padding: [25, 25] });
@@ -25,8 +26,29 @@ const FitBounds = ({ positions }) => {
 
 const MapComponent = (props) => {
 	const { vehiclesOnRoute, busPositions, setSelectedVehicle } = props;
+	const [userPosition, setUserPosition] = useState(null);
+
+	// watch user location:
+	useEffect(() => {
+		if (navigator.geolocation) {
+			const watchId = navigator.geolocation.watchPosition(
+				(position) => {
+					const { latitude, longitude } = position.coords;
+					setUserPosition([latitude, longitude]);
+				},
+				(error) => {
+					console.error('Error watching position:', error);
+				},
+				{ enableHighAccuracy: true }
+			);
+			return () => navigator.geolocation.clearWatch(watchId);
+		}
+	}, []);
+
+	const center = userPosition || [62.600785, 29.763171]; // Joensuu city center
+
 	return (
-		<MapContainer center={[62.600785, 29.763171]} zoom={13} style={{ height: '70vh', width: '100%' }}>
+		<MapContainer center={center} zoom={13} style={{ height: '70vh', width: '100%' }}>
 			<TileLayer
 				url='https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=REMOVED'
 				attribution='&copy; <a href="https://www.thunderforest.com/">Thunderforest</a>, <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -40,7 +62,7 @@ const MapComponent = (props) => {
 					return <VehicleMarker vehicle={vehicle} key={index} setSelectedVehicle={setSelectedVehicle} />;
 				})}
 			<FitBounds positions={busPositions} />
-			<UserLocationMarker />
+			{userPosition && <UserLocationMarker userPosition={userPosition} />}
 		</MapContainer>
 	);
 };
