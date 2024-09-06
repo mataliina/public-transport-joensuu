@@ -11,6 +11,7 @@ const UserLocationMarker = (props) => {
 	const userLocationIcon = new L.Icon({
 		iconUrl: userMarker,
 		iconSize: [30, 30],
+		iconAnchor: [15, 30],
 	});
 
 	useEffect(() => {
