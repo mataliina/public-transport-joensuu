@@ -10,6 +10,7 @@ import StopSearch from './StopSearch';
 import MapComponent from './MapComponent';
 import { getCookie } from '../utils/cookies';
 import { Typography } from '@mui/material';
+import { VEHICLE_POSITION_DATA_URL } from '../utils/dataUrls';
 
 const VehicleMap = () => {
 	const [vehiclesOnRoute, setVehiclesOnRoute] = useState([]);
@@ -22,7 +23,7 @@ const VehicleMap = () => {
 		[62.599988, 29.774635],
 	]); // Joensuu city center [62.600785, 29.763171]
 
-	const { data, loading } = useGTFSRealtimeData('/joensuu/api/gtfsrealtime/v1.0/feed/vehicleposition', 2000);
+	const { data, loading } = useGTFSRealtimeData(VEHICLE_POSITION_DATA_URL, 2000);
 
 	useEffect(() => {
 		const selectedRoutesCookie = getCookie('selectedRoutes');
