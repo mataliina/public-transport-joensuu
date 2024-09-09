@@ -1,2 +1,2 @@
 "feed_publisher_name","feed_publisher_url","feed_lang","feed_start_date","feed_end_date","feed_version"
-"Joensuu","https://joensuu.fi","fi","20240801","20241231","202408051003"
+"Joensuu","https://joensuu.fi","fi","20240812","20250329","202409031022"

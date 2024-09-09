@@ -25,6 +25,7 @@
 "202P","6902","202P","Joensuu-Kontiolahti-Kontioniemi-Paihola","","3","","","","0","1"
 "203","6902","203","Kontiolahti - Kontioniemi","","3","","","","0","1"
 "204","6902","204","Joensuu - Lehmo - Paihola","","3","","","","0","1"
+"205","6902","205","Joensuu-Kylmäoja-Kontiolahti","","3","","","","0","1"
 "206","6902","206","Joensuu-Alavi-Mönni-Jakokoski-Kontiolahti","","3","","","","0","1"
 "207","6902","207","Joensuu-Kulho-Kuurna-Kontiolahti","","3","","","","0","1"
 "211","6902","211","Joensuu-Onttola-Kunnasniemi-Kontiolahti","","3","","","","0","1"
