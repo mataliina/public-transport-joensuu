@@ -2,13 +2,12 @@ import { useState, useEffect } from 'react';
 import protobuf from 'protobufjs';
 import axios from 'axios';
 import proto from '../gtfs-realtime.proto';
+import { WALTTI_API_URL } from '../utils/dataUrls';
 
 const useGTFSRealtimeData = (url, interval = 5000) => {
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-
-	const API_URL = 'https://data.waltti.fi';
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -17,7 +16,7 @@ const useGTFSRealtimeData = (url, interval = 5000) => {
 				const headers = {
 					Authorization: `Basic ${token}`,
 				};
-				const response = await axios.get(API_URL + url, {
+				const response = await axios.get(WALTTI_API_URL + url, {
 					headers: headers,
 					responseType: 'arraybuffer',
 				});
