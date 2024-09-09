@@ -27,6 +27,7 @@ const FitBounds = ({ positions }) => {
 const MapComponent = (props) => {
 	const { vehiclesOnRoute, busPositions, setSelectedVehicle } = props;
 	const [userPosition, setUserPosition] = useState(null);
+	const apikey = process.env.REACT_APP_THUNDERFOREST_API_KEY;
 
 	// watch user location:
 	useEffect(() => {
@@ -50,7 +51,7 @@ const MapComponent = (props) => {
 	return (
 		<MapContainer center={center} zoom={13} style={{ height: '70vh', width: '100%' }}>
 			<TileLayer
-				url='https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=REMOVED'
+				url={`https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=${apikey}`}
 				attribution='&copy; <a href="https://www.thunderforest.com/">Thunderforest</a>, <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 			/>
 			{vehiclesOnRoute.length > 0 &&
