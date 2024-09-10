@@ -6,7 +6,6 @@ export const RoutesContext = createContext();
 export const RoutesProvider = ({ children }) => {
 	const [routesData, setRoutesData] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		setLoading(true);
@@ -51,7 +50,6 @@ export const RoutesProvider = ({ children }) => {
 						setLoading(false);
 					},
 					error: (error) => {
-						setError(error);
 						console.error(error);
 						setLoading(false);
 					},
@@ -60,7 +58,7 @@ export const RoutesProvider = ({ children }) => {
 				console.error('Routes file not found or error in function');
 			}
 		} catch (error) {
-			setError(error);
+			console.error(error);
 			setLoading(false);
 		}
 	};
