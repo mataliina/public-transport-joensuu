@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+# Joensuu Local Bus Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a **React** application that allows users to track Joensuu local buses in real-time on a map. The app fetches bus location data from available sources and displays the current positions on an interactive map using **Leaflet** and **Thunderforest** maps.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Real-time tracking:** See the current positions of Joensuu's local buses on the map.
+- **Interactive map:** Users can zoom in/out and pan across the map to explore bus routes and locations.
+- **Route filtering:** Filter and view specific bus routes.
+- **Responsive design:** Optimized for both desktop and mobile use.
 
-### `npm start`
+## Getting Started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Follow these instructions to set up and run the project locally on your machine.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Prerequisites
 
-### `npm test`
+Make sure you have the following installed:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [Node.js](https://nodejs.org/en/) (v14 or later)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Clone the repository:**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   ```bash
+   git clone https://github.com/mataliina/public-transport-joensuu.git
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. **Navigate to the project directory:**
+   ```bash
+   cd joensuu-bus-tracker
+   ```
 
-### `npm run eject`
+3. **Install dependencies:** 
+   ```bash
+   npm install
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   Or, if you are using yarn:
+    ```bash
+   yarn install
+   ```
+   
+   The app should now be running at http://localhost:3000.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Building for Production
+To create an optimized production build, run:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   ```bash
+   npm run build
+   ```
+This will create a build folder with the optimized app, ready to be deployed.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Environment Variables
+To use real-time bus data, you need an API key. Create a .env file in the project root and configure the following environment variables:
 
-## Learn More
+```env
+REACT_APP_THUNDERFOREST_API_KEY=your_thunderforest_api_key
+REACT_APP_API_TOKEN=your_gtfs_waltti_api_token
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Make sure to replace your_thunderforest_api_key and your_gtfs_waltti_api_token with your actual Thunderforest API key and the appropriate endpoint for bus data.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Technologies Used
+- **React:** The front-end framework for building the user interface.
+- **Leaflet:** A lightweight open-source library for interactive maps.
+- **Thunderforest Maps:** Used to render the map and display bus locations.
+- **GTFS (General Transit Feed Specification):** For real-time bus tracking data.
+- **Axios:** For handling API requests to fetch bus data.
+- **Material-UI:** For the UI components and responsive design.
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Future Enhancements
+ 
