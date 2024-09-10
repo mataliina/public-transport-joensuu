@@ -57,7 +57,7 @@ export const RoutesProvider = ({ children }) => {
 					},
 				});
 			} else {
-				console.error('File not found or error in function');
+				console.error('Routes file not found or error in function');
 			}
 		} catch (error) {
 			setError(error);
@@ -66,8 +66,11 @@ export const RoutesProvider = ({ children }) => {
 	};
 
 	const getRouteShortName = (routeId) => {
-		const route = routesData.find((route) => route.route_ids.includes(routeId));
-		return route.route_short_name;
+		if (routeId && routesData) {
+			const route = routesData.find((route) => route.route_ids.includes(routeId));
+			return route.route_short_name;
+		}
+		return '';
 	};
 
 	return <RoutesContext.Provider value={{ loading, routesData, getRouteShortName }}>{children}</RoutesContext.Provider>;
