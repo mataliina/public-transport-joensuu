@@ -47,7 +47,7 @@ const StopInfo = () => {
 
 	return (
 		<div>
-			{loading && <div>Loading stop data...</div>}
+			{loading && <Typography variant='body1'>Haetaan pysäkkitietoja...</Typography>}
 			{stopTimes && stopTimes.length > 0 && !loading && (
 				<Accordion defaultExpanded>
 					<AccordionSummary
