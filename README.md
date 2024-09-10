@@ -6,7 +6,7 @@ This project is a **React** application that allows users to track Joensuu local
 
 - **Real-time tracking:** See the current positions of Joensuu's local buses on the map.
 - **Interactive map:** Users can zoom in/out and pan across the map to explore bus routes and locations.
-- **Route filtering:** Filter and view specific bus routes.
+- **Route filtering:** Filter and view specific bus route.
 - **Responsive design:** Optimized for both desktop and mobile use.
 
 ## Getting Started
@@ -24,33 +24,33 @@ Make sure you have the following installed:
 
 1. **Clone the repository:**
 
-   ```bash
-   git clone https://github.com/mataliina/public-transport-joensuu.git
-   ```
+```bash
+git clone https://github.com/mataliina/public-transport-joensuu.git
+```
 
 2. **Navigate to the project directory:**
-   ```bash
-   cd joensuu-bus-tracker
-   ```
+```bash
+cd public-transport-joensuu
+```
 
 3. **Install dependencies:** 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
-   Or, if you are using yarn:
-    ```bash
-   yarn install
-   ```
-   
-   The app should now be running at http://localhost:3000.
+Or, if you are using yarn:
+```bash
+yarn install
+```
+
+The app should now be running at http://localhost:3000.
 
 ### Building for Production
 To create an optimized production build, run:
 
-   ```bash
-   npm run build
-   ```
+```bash
+npm run build
+```
 This will create a build folder with the optimized app, ready to be deployed.
 
 ### Environment Variables
@@ -72,4 +72,6 @@ Make sure to replace your_thunderforest_api_key and your_gtfs_waltti_api_token w
 - **Material-UI:** For the UI components and responsive design.
 
 ### Future Enhancements
+- Display tomorrow's departures for a specific stop
+- Route search
  
