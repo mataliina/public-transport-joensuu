@@ -22,7 +22,7 @@ export const StopsProvider = ({ children }) => {
 
 		Promise.all([stops, calendar, calendar_dates, trips, stop_times])
 			.then(() => {
-				console.log('Tiedot haettu');
+				console.log('Fetched static data');
 			})
 			.finally(() => {
 				setLoading(false);
