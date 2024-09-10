@@ -18,24 +18,25 @@ const RouteStops = (props) => {
 	const [stopsOnRoute, setStopsOnRoute] = useState([]);
 
 	useEffect(() => {
+		const getStopsOnRoute = (vehicle) => {
+			if (data && vehicle) {
+				let tripOnRoute = data.entity.find((entity) => {
+					if (entity.tripUpdate) {
+						return entity.tripUpdate.trip.tripId === vehicle.vehicle.trip.tripId;
+					}
+					return null;
+				});
+				if (tripOnRoute) {
+					setStopsOnRoute(tripOnRoute.tripUpdate.stopTimeUpdate);
+				} else {
+					setStopsOnRoute([]);
+				}
+			}
+		};
 		if (!loading && vehicle) getStopsOnRoute(vehicle);
 	}, [vehicle, loading, data]);
 
-	const getStopsOnRoute = (vehicle) => {
-		if (data && vehicle) {
-			let tripOnRoute = data.entity.find((entity) => {
-				if (entity.tripUpdate) {
-					return entity.tripUpdate.trip.tripId === vehicle.vehicle.trip.tripId;
-				}
-				return null;
-			});
-			if (tripOnRoute) {
-				setStopsOnRoute(tripOnRoute.tripUpdate.stopTimeUpdate);
-			} else {
-				setStopsOnRoute([]);
-			}
-		}
-	};
+	
 
 	if (loading) return <Typography variant='body1'>{stopsLocales.loading_stops}</Typography>;
 	return (
