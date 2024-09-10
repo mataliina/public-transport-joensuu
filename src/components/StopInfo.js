@@ -6,6 +6,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { RoutesContext } from '../context/RoutesContext';
+import { stopsLocales } from '../utils/locales';
 
 const StopInfo = () => {
 	const { stopTimesData, loading } = useContext(StopsContext);
@@ -47,7 +48,7 @@ const StopInfo = () => {
 
 	return (
 		<div>
-			{loading && <Typography variant='body1'>Haetaan pysäkkitietoja...</Typography>}
+			{loading && <Typography variant='body1'>{stopsLocales.loading_stops}</Typography>}
 			{stopTimes && stopTimes.length > 0 && !loading && (
 				<Accordion defaultExpanded>
 					<AccordionSummary
@@ -56,7 +57,7 @@ const StopInfo = () => {
 						expandIcon={<ExpandMoreIcon />}
 						sx={{ color: 'primary.main' }}
 					>
-						<Typography variant='body1'>Lähtöajat pysäkiltä tänään</Typography>
+						<Typography variant='body1'>{stopsLocales.departures_today}</Typography>
 					</AccordionSummary>
 					<AccordionDetails>
 						<FormGroup>

@@ -8,6 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StopItem from './StopItem';
 import { RoutesContext } from '../context/RoutesContext';
 import { TRIPUPDATE_DATA_URL } from '../utils/dataUrls';
+import { stopsLocales } from '../utils/locales';
 
 const RouteStops = (props) => {
 	const { vehicle } = props;
@@ -36,7 +37,7 @@ const RouteStops = (props) => {
 		}
 	};
 
-	if (loading) return <Typography variant='body1'>Haetaan pysäkkejä...</Typography>;
+	if (loading) return <Typography variant='body1'>{stopsLocales.loading_stops}</Typography>;
 	return (
 		<div>
 			{stopsOnRoute.length > 0 && (
@@ -48,7 +49,7 @@ const RouteStops = (props) => {
 						<Typography variant='body1' sx={{ color: 'primary.main', marginRight: '5px', fontWeight: 'bold' }}>
 							{vehicle.vehicle.vehicle.label}
 						</Typography>
-						<Typography variant='body1'>seuraavat pysäkit</Typography>
+						<Typography variant='body1'>{stopsLocales.next_stops}</Typography>
 					</AccordionSummary>
 					<AccordionDetails>
 						<List>

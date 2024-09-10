@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { StopsContext } from '../context/StopsContext';
 import { Box, ListItemButton, ListItemText, Typography } from '@mui/material';
+import { stopsLocales } from '../utils/locales';
 
 const StopItem = (props) => {
 	const { index, stop } = props;
@@ -21,7 +22,7 @@ const StopItem = (props) => {
 							{stop.departure
 								? new Date(stop.departure.time * 1000).toLocaleTimeString()
 								: stop.arrival
-								? `Saapuu: ${new Date(stop.arrival.time * 1000).toLocaleTimeString()}`
+								? `${stopsLocales.arrives} ${new Date(stop.arrival.time * 1000).toLocaleTimeString()}`
 								: ''}
 						</Typography>
 					</Box>
