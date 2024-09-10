@@ -63,7 +63,7 @@ const StopInfo = () => {
 						<FormGroup>
 							<FormControlLabel
 								control={<Checkbox checked={showEarlier} onChange={handleCheckboxChange} />}
-								label='Näytä aikaisemmat lähdöt'
+								label={stopsLocales.show_earlier}
 							/>
 						</FormGroup>
 						<List sx={{ display: 'inline-block' }}>
