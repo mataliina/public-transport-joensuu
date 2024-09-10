@@ -24,3 +24,5 @@ yarn-debug.log*
 yarn-error.log*
 
 /data/gtfs/
+# Local Netlify folder
+.netlify

@@ -51,7 +51,7 @@ const MapComponent = (props) => {
 	return (
 		<MapContainer center={center} zoom={13} style={{ height: '70vh', width: '100%' }}>
 			<TileLayer
-				url={`https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=${apikey}`}
+				url={`/.netlify/functions/thunderforestProxy?z={z}&x={x}&y={y}`}
 				attribution='&copy; <a href="https://www.thunderforest.com/">Thunderforest</a>, <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 			/>
 			{vehiclesOnRoute.length > 0 &&
