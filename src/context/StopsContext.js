@@ -16,14 +16,21 @@ export const StopsProvider = ({ children }) => {
 	const [calendar, setCalendar] = useState([]);
 	const [calendarDates, setCalendarDates] = useState([]);
 	const [trips, setTrips] = useState([]);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		fetchStops();
-		fetchCalendar();
-		fetchCalendarDates();
-		fetchTrips();
-		fetchStopTimes();
+		const stops = fetchStops();
+		const calendar = fetchCalendar();
+		const calendar_dates = fetchCalendarDates();
+		const trips = fetchTrips();
+		const stop_times = fetchStopTimes();
+		Promise.all([stops, calendar, calendar_dates, trips, stop_times])
+			.then(() => {
+				console.log('Fetched static data');
+			})
+			.finally(() => {
+				setLoading(false);
+			});
 	}, []);
 
 	useEffect(() => {
