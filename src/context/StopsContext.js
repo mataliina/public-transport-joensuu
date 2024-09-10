@@ -1,10 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
 import Papa from 'papaparse';
-import stopsData from '../staticlinjat/stops.txt';
-import calendarData from '../staticlinjat/calendar.txt';
-import calendarDatesData from '../staticlinjat/calendar_dates.txt';
-import stopTimesDataUrl from '../staticlinjat/stop_times.txt';
-import tripsDataUrl from '../staticlinjat/trips.txt';
 
 export const StopsContext = createContext();
 
@@ -16,14 +11,22 @@ export const StopsProvider = ({ children }) => {
 	const [calendar, setCalendar] = useState([]);
 	const [calendarDates, setCalendarDates] = useState([]);
 	const [trips, setTrips] = useState([]);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		fetchStops();
-		fetchCalendar();
-		fetchCalendarDates();
-		fetchTrips();
-		fetchStopTimes();
+		const stops = fetchStops();
+		const calendar = fetchCalendar();
+		const calendar_dates = fetchCalendarDates();
+		const trips = fetchTrips();
+		const stop_times = fetchStopTimes();
+
+		Promise.all([stops, calendar, calendar_dates, trips, stop_times])
+			.then(() => {
+				console.log('Tiedot haettu');
+			})
+			.finally(() => {
+				setLoading(false);
+			});
 	}, []);
 
 	useEffect(() => {
@@ -35,83 +38,103 @@ export const StopsProvider = ({ children }) => {
 	};
 
 	const fetchStops = async () => {
-		const response = await fetch(stopsData);
-		const csvText = await response.text();
+		try {
+			const response = await fetch(`/.netlify/functions/fetchGTFSStaticFiles?filename=stops.txt`);
+			const csvText = await response.text();
 
-		Papa.parse(csvText, {
-			header: true,
-			skipEmptyLines: true,
-			complete: function (results) {
-				setStops(results.data);
-			},
-			error: (error) => {
-				console.error('Error parsing stops data:', error);
-			},
-		});
+			Papa.parse(csvText, {
+				header: true,
+				skipEmptyLines: true,
+				complete: function (results) {
+					setStops(results.data);
+				},
+				error: (error) => {
+					console.error('Error parsing stops data:', error);
+				},
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const fetchTrips = async () => {
-		const response = await fetch(tripsDataUrl);
-		const csvText = await response.text();
+		try {
+			const response = await fetch(`/.netlify/functions/fetchGTFSStaticFiles?filename=trips.txt`);
+			const csvText = await response.text();
 
-		Papa.parse(csvText, {
-			header: true,
-			skipEmptyLines: true,
-			complete: function (results) {
-				setTrips(results.data);
-			},
-			error: (error) => {
-				console.error('Error parsing trips data:', error);
-			},
-		});
+			Papa.parse(csvText, {
+				header: true,
+				skipEmptyLines: true,
+				complete: function (results) {
+					setTrips(results.data);
+				},
+				error: (error) => {
+					console.error('Error parsing trips data:', error);
+				},
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const fetchStopTimes = async () => {
-		const response = await fetch(stopTimesDataUrl);
-		const csvText = await response.text();
+		try {
+			const response = await fetch(`/.netlify/functions/fetchGTFSStaticFiles?filename=stop_times.txt`);
+			const csvText = await response.text();
 
-		Papa.parse(csvText, {
-			header: true,
-			skipEmptyLines: true,
-			complete: function (results) {
-				setStopTimes(results.data);
-			},
-			error: (error) => {
-				console.error('Error parsing stop times data:', error);
-			},
-		});
+			Papa.parse(csvText, {
+				header: true,
+				skipEmptyLines: true,
+				complete: function (results) {
+					setStopTimes(results.data);
+				},
+				error: (error) => {
+					console.error('Error parsing stop times data:', error);
+				},
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const fetchCalendar = async () => {
-		const response = await fetch(calendarData);
-		const csvText = await response.text();
+		try {
+			const response = await fetch(`/.netlify/functions/fetchGTFSStaticFiles?filename=calendar.txt`);
+			const csvText = await response.text();
 
-		Papa.parse(csvText, {
-			header: true,
-			skipEmptyLines: true,
-			complete: function (results) {
-				setCalendar(results.data);
-			},
-			error: (error) => {
-				console.error('Error parsing calendar data:', error);
-			},
-		});
+			Papa.parse(csvText, {
+				header: true,
+				skipEmptyLines: true,
+				complete: function (results) {
+					setCalendar(results.data);
+				},
+				error: (error) => {
+					console.error('Error parsing calendar data:', error);
+				},
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const fetchCalendarDates = async () => {
-		const response = await fetch(calendarDatesData);
-		const csvText = await response.text();
+		try {
+			const response = await fetch(`/.netlify/functions/fetchGTFSStaticFiles?filename=calendar_dates.txt`);
+			const csvText = await response.text();
 
-		Papa.parse(csvText, {
-			header: true,
-			skipEmptyLines: true,
-			complete: function (results) {
-				setCalendarDates(results.data);
-			},
-			error: (error) => {
-				console.error('Error parsing calendar dates data:', error);
-			},
-		});
+			Papa.parse(csvText, {
+				header: true,
+				skipEmptyLines: true,
+				complete: function (results) {
+					setCalendarDates(results.data);
+				},
+				error: (error) => {
+					console.error('Error parsing calendar dates data:', error);
+				},
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const getTodaysServices = () => {
@@ -177,45 +200,7 @@ export const StopsProvider = ({ children }) => {
 		setStopTimesData(sortedStopTimes);
 		return sortedStopTimes;
 	};
-	/*
-	const fetchStopTimesForStop = async (stopId) => {
-		setLoading(true);
-		const stopTimesResponse = await fetch(stopTimesDataUrl);
-		const stopTimesText = await stopTimesResponse.text();
 
-		const tripsResponse = await fetch(tripsDataUrl);
-		const tripsText = await tripsResponse.text();
-
-		Papa.parse(stopTimesText, {
-			header: true,
-			complete: (stopTimesResults) => {
-				Papa.parse(tripsText, {
-					header: true,
-					complete: (tripsResults) => {
-						const stopTimes = stopTimesResults.data
-							.filter((row) => row.stop_id === stopId)
-							.map((stopTime) => {
-								const trip = tripsResults.data.find((trip) => trip.trip_id === stopTime.trip_id);
-								return {
-									...stopTime,
-									routeId: trip ? trip.route_id : null,
-									directionId: trip ? trip.direction_id : null,
-								};
-							});
-						setLoading(false);
-						setStopTimesData(stopTimes);
-					},
-					error: (error) => {
-						console.error('Error parsing trips.txt:', error);
-					},
-				});
-			},
-			error: (error) => {
-				console.error('Error parsing stop_times.txt:', error);
-			},
-		});
-	};
-*/
 	const getStopName = (stopId) => {
 		const currentStop = stops.find((stop) => stop.stop_id === stopId);
 		return currentStop ? currentStop.stop_name : 'Stop name not found';
