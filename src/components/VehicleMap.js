@@ -11,6 +11,7 @@ import MapComponent from './MapComponent';
 import { getCookie } from '../utils/cookies';
 import { Typography } from '@mui/material';
 import { VEHICLE_POSITION_DATA_URL } from '../utils/dataUrls';
+import { vehicleLocales } from '../utils/locales';
 
 const VehicleMap = () => {
 	const [vehiclesOnRoute, setVehiclesOnRoute] = useState([]);
@@ -70,12 +71,12 @@ const VehicleMap = () => {
 						setSelectedVehicle={setSelectedVehicle}
 						setVehiclesOnRoute={setVehiclesOnRoute}
 					/>
-					{(loadingVehicles || loading) && <Typography variant='body1'>Haetaan tietoja...</Typography>}
+					{(loadingVehicles || loading) && <Typography variant='body1'>{vehicleLocales.loading}</Typography>}
 					{!loading && !loadingVehicles && vehiclesOnRoute.length === 0 && selectedRoute.length > 0 && (
-						<Alert severity='warning'>Linjalla ei ole liikennettä juuri nyt</Alert>
+						<Alert severity='warning'>{vehicleLocales.no_vehicles}</Alert>
 					)}
 					{!loading && !loadingVehicles && vehiclesOnRoute.length > 1 && selectedVehicle === null && (
-						<Alert severity='info'>Valitse bussi kartalta nähdäksesi seuraavat pysäkit</Alert>
+						<Alert severity='info'>{vehicleLocales.select_vehicle}</Alert>
 					)}
 					{selectedVehicle && <RouteStops vehicle={selectedVehicle} />}
 				</Grid2>

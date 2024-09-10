@@ -4,6 +4,7 @@ import L from 'leaflet';
 import pinkBusIcon from '../images/pink_bus.png';
 import { StopsContext } from '../context/StopsContext';
 import { RoutesContext } from '../context/RoutesContext';
+import { vehicleLocales } from '../utils/locales';
 
 const VehicleMarker = (props) => {
 	const { vehicle, setSelectedVehicle } = props;
@@ -38,10 +39,14 @@ const VehicleMarker = (props) => {
 				</b>
 				<br />
 
-				<span>Seuraavaksi: {getStopName(vehicle.vehicle.stopId)}</span>
+				<span>
+					{vehicleLocales.next} {getStopName(vehicle.vehicle.stopId)}
+				</span>
 
 				<br />
-				<span>Nopeus: {getCurrentSpeed(vehicle.vehicle.position.speed)} km/h</span>
+				<span>
+					{vehicleLocales.speed} {getCurrentSpeed(vehicle.vehicle.position.speed)} {vehicleLocales.kmh}
+				</span>
 			</Popup>
 		</Marker>
 	);

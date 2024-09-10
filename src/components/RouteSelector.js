@@ -5,6 +5,7 @@ import Select from '@mui/material/Select';
 import { setCookie } from '../utils/cookies';
 import { useContext } from 'react';
 import { RoutesContext } from '../context/RoutesContext';
+import { routeLocales } from '../utils/locales';
 
 const RouteSelector = (props) => {
 	const { routesData, loading } = useContext(RoutesContext);
@@ -23,11 +24,11 @@ const RouteSelector = (props) => {
 		<div>
 			{!loading && routesData && (
 				<FormControl fullWidth>
-					<InputLabel id='route-select-label'>Valitse linja</InputLabel>
+					<InputLabel id='route-select-label'>{routeLocales.select_route}</InputLabel>
 					<Select onChange={handleRouteSelect} id='route-select' value={selectedRoute} displayEmpty>
 						<MenuItem key={999} value={'all'}>
 							<Typography variant='body' sx={{ color: 'main.dark', mr: 2, fontWeight: 'bold' }}>
-								Näytä kaikki linjat
+								{routeLocales.show_all_routes}
 							</Typography>
 						</MenuItem>
 						{routesData.map((route, index) => {
