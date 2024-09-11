@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Marker } from 'react-leaflet';
 import L from 'leaflet';
 import markerIcon from '../images/arrow_thin.png';
@@ -8,12 +8,10 @@ const RotateMarker = (props) => {
 	const markerRef = useRef(null);
 
 	const { vehicle } = props;
-	const [angle, setAngle] = useState(0);
 
 	useEffect(() => {
-		setAngle(vehicle.vehicle.position.bearing);
 		if (markerRef.current) {
-			markerRef.current.setRotationAngle(angle);
+			markerRef.current.setRotationAngle(vehicle.vehicle.position.bearing);
 		}
 	}, [vehicle]);
 
@@ -26,7 +24,7 @@ const RotateMarker = (props) => {
 		<Marker
 			icon={arrowIcon}
 			position={[vehicle.vehicle.position.latitude, vehicle.vehicle.position.longitude]}
-			rotationAngle={angle}
+			rotationAngle={vehicle.vehicle.position.bearing}
 			rotationOrigin='center center'
 			ref={markerRef}
 			zIndexOffset={100}
