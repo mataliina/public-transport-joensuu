@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import 'leaflet/dist/leaflet.css';
 import useGTFSRealtimeData from '../hooks/useGTFSRealtimeData';
 import StopInfo from './StopInfo';
@@ -17,11 +17,12 @@ const VehicleMap = () => {
 	const [vehiclesOnRoute, setVehiclesOnRoute] = useState([]);
 	const [selectedVehicle, setSelectedVehicle] = useState(null);
 	const [selectedRoute, setSelectedRoute] = useState('');
-	const [busPositionsChanged, setBusPositionsChanged] = useState(false); // for setting bounds for map only after user selected new route
 	const [busPositions, setBusPositions] = useState([
 		[62.605051, 29.743884],
 		[62.599988, 29.774635],
 	]); // Joensuu city center [62.600785, 29.763171]
+
+	const newRouteSelected = useRef(false); // for setting bounds for map only after user selected new route
 
 	const { data, loading } = useGTFSRealtimeData(VEHICLE_POSITION_DATA_URL, 2000);
 
@@ -33,7 +34,6 @@ const VehicleMap = () => {
 	}, []);
 
 	useEffect(() => {
-		console.log('VehicleMap useEffect');
 		if (data && selectedRoute) {
 			let vehiclesOnSelectedRoute;
 			if (selectedRoute === 'all' || selectedRoute.includes('all')) {
@@ -47,14 +47,13 @@ const VehicleMap = () => {
 			if (vehiclesOnSelectedRoute.length > 0) setVehiclesOnRoute(vehiclesOnSelectedRoute);
 			if (vehiclesOnSelectedRoute.length === 1) setSelectedVehicle(vehiclesOnSelectedRoute[0]);
 			// setting new bounds for map after user selected a new route, based on bus locations:
-			if (vehiclesOnSelectedRoute.length > 0 && busPositionsChanged) {
-				console.log('iffissa');
+			if (vehiclesOnSelectedRoute.length > 0 && newRouteSelected.current) {
 				let newPositions = [];
 				vehiclesOnSelectedRoute.forEach((vehicle) => {
 					newPositions.push([vehicle.vehicle.position.latitude, vehicle.vehicle.position.longitude]);
 				});
+				newRouteSelected.current = false;
 				setBusPositions(newPositions);
-				setBusPositionsChanged(false);
 			}
 		}
 	}, [data, selectedRoute, selectedVehicle]);
@@ -66,10 +65,10 @@ const VehicleMap = () => {
 				<Grid2 xs={12} md={6}>
 					<RouteSelector
 						selectedRoute={selectedRoute}
-						setBusPositionsChanged={setBusPositionsChanged}
 						setSelectedRoute={setSelectedRoute}
 						setSelectedVehicle={setSelectedVehicle}
 						setVehiclesOnRoute={setVehiclesOnRoute}
+						newRouteSelected={newRouteSelected}
 					/>
 					{loading && <Typography variant='body1'>{vehicleLocales.loading}</Typography>}
 					{!loading && vehiclesOnRoute.length === 0 && selectedRoute.length > 0 && (

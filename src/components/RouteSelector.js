@@ -9,14 +9,14 @@ import { routeLocales } from '../utils/locales';
 
 const RouteSelector = (props) => {
 	const { routesData, loading } = useContext(RoutesContext);
-	const { setSelectedRoute, setSelectedVehicle, setVehiclesOnRoute, selectedRoute, setBusPositionsChanged } = props;
+	const { setSelectedRoute, setSelectedVehicle, setVehiclesOnRoute, selectedRoute, newRouteSelected } = props;
 
 	const handleRouteSelect = (event) => {
 		const value = event.target.value;
 		setSelectedRoute(value.split(','));
-		setBusPositionsChanged(true);
 		setSelectedVehicle(null);
 		setVehiclesOnRoute([]);
+		newRouteSelected.current = true;
 		setCookie('selectedRoutes', value, 7);
 	};
 
