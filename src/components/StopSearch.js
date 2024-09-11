@@ -3,7 +3,7 @@ import { StopsContext } from '../context/StopsContext';
 import { Autocomplete, TextField } from '@mui/material';
 
 const StopSearch = (props) => {
-	const { loading, stops, selectedStop, setSelectedStop } = useContext(StopsContext);
+	const { stops, selectedStop, setSelectedStop } = useContext(StopsContext);
 
 	const [selected, setSelected] = useState(null);
 	const [inputValue, setInputValue] = useState('');
@@ -27,7 +27,7 @@ const StopSearch = (props) => {
 			setInputValue('');
 			setSelected(null);
 		}
-	}, [selectedStop, selected]);
+	}, [selectedStop, selected, stops]);
 
 	return (
 		<div>
@@ -49,13 +49,6 @@ const StopSearch = (props) => {
 					isOptionEqualToValue={(option, value) => value === undefined || option.stop_id === value.stop_id}
 				/>
 			)}
-			{/*selectedStop && (
-				<List>
-					<ListItem>
-						<ListItemText primary={`Selected Stop: ${getStopName(selectedStop)}`} secondary={`Stop ID: ${selectedStop} `} />
-					</ListItem>
-				</List>
-			)*/}
 		</div>
 	);
 };
