@@ -17,7 +17,6 @@ const VehicleMap = () => {
 	const [vehiclesOnRoute, setVehiclesOnRoute] = useState([]);
 	const [selectedVehicle, setSelectedVehicle] = useState(null);
 	const [selectedRoute, setSelectedRoute] = useState('');
-	const [loadingVehicles, setLoadingVehicles] = useState(false);
 	const [busPositionsChanged, setBusPositionsChanged] = useState(false); // for setting bounds for map only after user selected new route
 	const [busPositions, setBusPositions] = useState([
 		[62.605051, 29.743884],
@@ -34,8 +33,8 @@ const VehicleMap = () => {
 	}, []);
 
 	useEffect(() => {
+		console.log('VehicleMap useEffect');
 		if (data && selectedRoute) {
-			setLoadingVehicles(true);
 			let vehiclesOnSelectedRoute;
 			if (selectedRoute === 'all' || selectedRoute.includes('all')) {
 				vehiclesOnSelectedRoute = data.entity;
@@ -55,7 +54,6 @@ const VehicleMap = () => {
 				setBusPositions(newPositions);
 				setBusPositionsChanged(false);
 			}
-			setLoadingVehicles(false);
 		}
 	}, [data, selectedRoute, selectedVehicle]);
 
@@ -71,11 +69,11 @@ const VehicleMap = () => {
 						setSelectedVehicle={setSelectedVehicle}
 						setVehiclesOnRoute={setVehiclesOnRoute}
 					/>
-					{(loadingVehicles || loading) && <Typography variant='body1'>{vehicleLocales.loading}</Typography>}
-					{!loading && !loadingVehicles && vehiclesOnRoute.length === 0 && selectedRoute.length > 0 && (
+					{loading && <Typography variant='body1'>{vehicleLocales.loading}</Typography>}
+					{!loading && vehiclesOnRoute.length === 0 && selectedRoute.length > 0 && (
 						<Alert severity='warning'>{vehicleLocales.no_vehicles}</Alert>
 					)}
-					{!loading && !loadingVehicles && vehiclesOnRoute.length > 1 && selectedVehicle === null && (
+					{!loading && vehiclesOnRoute.length > 1 && selectedVehicle === null && (
 						<Alert severity='info'>{vehicleLocales.select_vehicle}</Alert>
 					)}
 					{selectedVehicle && <RouteStops vehicle={selectedVehicle} />}
