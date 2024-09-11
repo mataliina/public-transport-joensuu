@@ -27,7 +27,7 @@ const FitBounds = ({ positions }) => {
 const MapComponent = (props) => {
 	const { vehiclesOnRoute, busPositions, setSelectedVehicle } = props;
 	const [userPosition, setUserPosition] = useState(null);
-	const apikey = process.env.REACT_APP_THUNDERFOREST_API_KEY;
+	//const apikey = process.env.REACT_APP_THUNDERFOREST_API_KEY;
 
 	// watch user location:
 	useEffect(() => {
