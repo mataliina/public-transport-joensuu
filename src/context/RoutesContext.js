@@ -62,7 +62,8 @@ export const RoutesProvider = ({ children }) => {
 
 	const getRouteShortName = (routeId) => {
 		const route = routesData.find((route) => route.route_ids.includes(routeId));
-		return route.route_short_name;
+		if (route) return route.route_short_name;
+		return '';
 	};
 
 	return <RoutesContext.Provider value={{ loading, routesData, getRouteShortName }}>{children}</RoutesContext.Provider>;
