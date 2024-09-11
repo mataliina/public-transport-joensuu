@@ -46,9 +46,11 @@ const VehicleMap = () => {
 
 			if (vehiclesOnSelectedRoute.length > 0) setVehiclesOnRoute(vehiclesOnSelectedRoute);
 			if (vehiclesOnSelectedRoute.length === 1) setSelectedVehicle(vehiclesOnSelectedRoute[0]);
-			if (vehiclesOnRoute.length > 0 && busPositionsChanged) {
+			// setting new bounds for map after user selected a new route, based on bus locations:
+			if (vehiclesOnSelectedRoute.length > 0 && busPositionsChanged) {
+				console.log('iffissa');
 				let newPositions = [];
-				vehiclesOnRoute.forEach((vehicle) => {
+				vehiclesOnSelectedRoute.forEach((vehicle) => {
 					newPositions.push([vehicle.vehicle.position.latitude, vehicle.vehicle.position.longitude]);
 				});
 				setBusPositions(newPositions);
