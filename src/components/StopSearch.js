@@ -38,6 +38,11 @@ const StopSearch = (props) => {
 					inputValue={inputValue}
 					options={stops}
 					getOptionLabel={(option) => option.stop_name}
+					renderOption={(props, option) => (
+						<li {...props} key={option.stop_id}>
+							{option.stop_name}
+						</li>
+					)}
 					style={{ width: '100%' }}
 					renderInput={(params) => <TextField {...params} label='Hae pysäkkiä' variant='outlined' />}
 					onChange={handleStopChange}
