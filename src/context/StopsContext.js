@@ -1,10 +1,6 @@
 import React, { useCallback, createContext, useEffect, useState } from 'react';
 import Papa from 'papaparse';
-import stopsData from '../staticlinjat/stops.txt';
-import calendarData from '../staticlinjat/calendar.txt';
-import calendarDatesData from '../staticlinjat/calendar_dates.txt';
-import stopTimesDataUrl from '../staticlinjat/stop_times.txt';
-import tripsDataUrl from '../staticlinjat/trips.txt';
+import { STATIC_DATA_API_URL } from '../utils/dataUrls';
 import { stopsLocales } from '../utils/locales';
 
 export const StopsContext = createContext();
@@ -18,6 +14,12 @@ export const StopsProvider = ({ children }) => {
 	const [calendarDates, setCalendarDates] = useState([]);
 	const [trips, setTrips] = useState([]);
 	const [loading, setLoading] = useState(true);
+
+	const STOPS_URL = STATIC_DATA_API_URL + 'stops.txt';
+	const TRIPS_URL = STATIC_DATA_API_URL + 'trips.txt';
+	const STOP_TIMES_URL = STATIC_DATA_API_URL + 'stop_times.txt';
+	const CALENDAR_URL = STATIC_DATA_API_URL + 'calendar.txt';
+	const CALENDAR_DATES_URL = STATIC_DATA_API_URL + 'calendar_dates.txt';
 
 	useEffect(() => {
 		const stops = fetchStops();
@@ -105,7 +107,7 @@ export const StopsProvider = ({ children }) => {
 	};
 
 	const fetchStops = async () => {
-		const response = await fetch(stopsData);
+		const response = await fetch(STOPS_URL);
 		const csvText = await response.text();
 
 		Papa.parse(csvText, {
@@ -121,7 +123,7 @@ export const StopsProvider = ({ children }) => {
 	};
 
 	const fetchTrips = async () => {
-		const response = await fetch(tripsDataUrl);
+		const response = await fetch(TRIPS_URL);
 		const csvText = await response.text();
 
 		Papa.parse(csvText, {
@@ -137,7 +139,7 @@ export const StopsProvider = ({ children }) => {
 	};
 
 	const fetchStopTimes = async () => {
-		const response = await fetch(stopTimesDataUrl);
+		const response = await fetch(STOP_TIMES_URL);
 		const csvText = await response.text();
 
 		Papa.parse(csvText, {
@@ -153,7 +155,7 @@ export const StopsProvider = ({ children }) => {
 	};
 
 	const fetchCalendar = async () => {
-		const response = await fetch(calendarData);
+		const response = await fetch(CALENDAR_URL);
 		const csvText = await response.text();
 
 		Papa.parse(csvText, {
@@ -169,7 +171,7 @@ export const StopsProvider = ({ children }) => {
 	};
 
 	const fetchCalendarDates = async () => {
-		const response = await fetch(calendarDatesData);
+		const response = await fetch(CALENDAR_DATES_URL);
 		const csvText = await response.text();
 
 		Papa.parse(csvText, {

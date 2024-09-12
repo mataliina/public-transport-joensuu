@@ -24,4 +24,5 @@ yarn-debug.log*
 yarn-error.log*
 
 /data/gtfs/
+/data/staticlinjat.zip
 .netlify

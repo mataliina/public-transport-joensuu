@@ -1,12 +1,13 @@
 import React, { createContext, useEffect, useState } from 'react';
 import Papa from 'papaparse';
-import routes from '../staticlinjat/routes.txt';
 
 export const RoutesContext = createContext();
 
 export const RoutesProvider = ({ children }) => {
 	const [routesData, setRoutesData] = useState(null);
 	const [loading, setLoading] = useState(true);
+
+	const ROUTES_URL = 'api/gtfs/routes.txt';
 
 	useEffect(() => {
 		setLoading(true);
@@ -15,7 +16,7 @@ export const RoutesProvider = ({ children }) => {
 
 	const fetchRoutes = async () => {
 		try {
-			const response = await fetch(routes);
+			const response = await fetch(ROUTES_URL);
 			const csvText = await response.text();
 
 			Papa.parse(csvText, {
@@ -45,7 +46,6 @@ export const RoutesProvider = ({ children }) => {
 						routes: groupedData[route_short_name].routes,
 						route_ids: groupedData[route_short_name].route_ids,
 					}));
-
 					setRoutesData(groupedArray);
 					setLoading(false);
 				},
