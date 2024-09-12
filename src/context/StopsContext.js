@@ -1,5 +1,6 @@
 import React, { useCallback, createContext, useEffect, useState } from 'react';
 import Papa from 'papaparse';
+import { stopsLocales } from '../utils/locales';
 
 export const StopsContext = createContext();
 
@@ -201,7 +202,7 @@ export const StopsProvider = ({ children }) => {
 
 	const getStopName = (stopId) => {
 		const currentStop = stops.find((stop) => stop.stop_id === stopId);
-		return currentStop ? currentStop.stop_name : 'Stop name not found';
+		return currentStop ? currentStop.stop_name : stopsLocales.name_not_found;
 	};
 
 	return (

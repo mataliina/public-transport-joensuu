@@ -4,6 +4,7 @@ export const stopsLocales = {
 	departures_today: 'Lähtöajat pysäkiltä tänään',
 	arrives: 'Saapuu:',
 	show_earlier: 'Näytä aikaisemmat lähdöt',
+	name_not_found: 'Pysäkin nimeä ei löytynyt',
 };
 
 export const routeLocales = {
