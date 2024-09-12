@@ -104,6 +104,7 @@ export const StopsProvider = ({ children }) => {
 	const fetchStops = async () => {
 		try {
 			//const response = await fetch(`/.netlify/functions/fetchGTFSStaticFiles?filename=stops.txt`);
+			// Use the static file to fetch stops because otherwise Netlify will return a ResponseSizeTooLarge error.
 			const response = await fetch(stopsData);
 			const csvText = await response.text();
 
