@@ -1,5 +1,6 @@
 import React, { useCallback, createContext, useEffect, useState } from 'react';
 import Papa from 'papaparse';
+import stopsData from '../staticlinjat/stops.txt';
 import { stopsLocales } from '../utils/locales';
 
 export const StopsContext = createContext();
@@ -102,7 +103,8 @@ export const StopsProvider = ({ children }) => {
 
 	const fetchStops = async () => {
 		try {
-			const response = await fetch(`/.netlify/functions/fetchGTFSStaticFiles?filename=stops.txt`);
+			//const response = await fetch(`/.netlify/functions/fetchGTFSStaticFiles?filename=stops.txt`);
+			const response = await fetch(stopsData);
 			const csvText = await response.text();
 
 			Papa.parse(csvText, {
