@@ -1,6 +1,6 @@
 import React, { useCallback, createContext, useEffect, useState } from 'react';
 import Papa from 'papaparse';
-import stopsData from '../staticlinjat/stops.txt';
+import stopTimesFile from '../staticlinjat/stop_times.txt';
 import { stopsLocales } from '../utils/locales';
 
 export const StopsContext = createContext();
@@ -103,9 +103,7 @@ export const StopsProvider = ({ children }) => {
 
 	const fetchStops = async () => {
 		try {
-			//const response = await fetch(`/.netlify/functions/fetchGTFSStaticFiles?filename=stops.txt`);
-			// Use the static file to fetch stops because otherwise Netlify will return a ResponseSizeTooLarge error.
-			const response = await fetch(stopsData);
+			const response = await fetch(`/.netlify/functions/fetchGTFSStaticFiles?filename=stops.txt`);
 			const csvText = await response.text();
 
 			Papa.parse(csvText, {
@@ -145,7 +143,10 @@ export const StopsProvider = ({ children }) => {
 
 	const fetchStopTimes = async () => {
 		try {
-			const response = await fetch(`/.netlify/functions/fetchGTFSStaticFiles?filename=stop_times.txt`);
+			//const response = await fetch(`/.netlify/functions/fetchGTFSStaticFiles?filename=stop_times.txt`);
+			// Use the static file to fetch stops because otherwise Netlify will return a ResponseSizeTooLarge error.
+			const response = await fetch(stopTimesFile);
+
 			const csvText = await response.text();
 
 			Papa.parse(csvText, {
