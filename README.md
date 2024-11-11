@@ -89,4 +89,4 @@ This project uses data available under the [CC BY 4.0](https://creativecommons.o
 
 In the release-netlify branch, the stop_times.txt file must currently be updated manually by downloading it from the data source link above. Automating the update process on Netlify leads to a ResponseSizeTooLarge error.
 
-Please ensure that stop_times.txt is up-to-date before each deployment to maintain accurate data.
+After downloading, please copy the stop_times.txt file into the staticlinjat folder to ensure it’s included in the deployment. Make sure stop_times.txt is up-to-date before each deployment to maintain accurate data.
