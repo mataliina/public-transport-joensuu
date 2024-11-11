@@ -6,54 +6,54 @@ This project is a **React** application that allows users to track Joensuu local
 
 - **Real-time tracking:** See the current positions of Joensuu's local buses on the map.
 - **Interactive map:** Users can zoom in/out and pan across the map to explore bus routes and locations.
-- **Route filtering:** Filter and view specific bus routes.
+- **Route filtering:** Filter and view specific bus route.
 - **Responsive design:** Optimized for both desktop and mobile use.
 
 ## Getting Started
 
 Follow these instructions to set up and run the project locally on your machine.
 
-### Prerequisites
+## Prerequisites
 
 Make sure you have the following installed:
 
 - [Node.js](https://nodejs.org/en/) (v14 or later)
 - [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 
-### Installation
+## Installation
 
 1. **Clone the repository:**
 
-   ```bash
-   git clone https://github.com/mataliina/public-transport-joensuu.git
-   ```
+```bash
+git clone https://github.com/mataliina/public-transport-joensuu.git
+```
 
 2. **Navigate to the project directory:**
-   ```bash
-   cd joensuu-bus-tracker
-   ```
+```bash
+cd public-transport-joensuu
+```
 
 3. **Install dependencies:** 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
-   Or, if you are using yarn:
-    ```bash
-   yarn install
-   ```
-   
-   The app should now be running at http://localhost:3000.
+Or, if you are using yarn:
+```bash
+yarn install
+```
 
-### Building for Production
+The app should now be running at http://localhost:3000.
+
+## Building for Production
 To create an optimized production build, run:
 
-   ```bash
-   npm run build
-   ```
+```bash
+npm run build
+```
 This will create a build folder with the optimized app, ready to be deployed.
 
-### Environment Variables
+## Environment Variables
 To use real-time bus data, you need an API key. Create a .env file in the project root and configure the following environment variables:
 
 ```env
@@ -61,9 +61,9 @@ REACT_APP_THUNDERFOREST_API_KEY=your_thunderforest_api_key
 REACT_APP_API_TOKEN=your_gtfs_waltti_api_token
 ```
 
-Make sure to replace your_thunderforest_api_key and your_gtfs_waltti_api_token with your actual Thunderforest API key and the appropriate endpoint for bus data.
+Make sure to replace your_thunderforest_api_key and your_gtfs_waltti_api_token with your actual Thunderforest API key and Waltti API token.
 
-### Technologies Used
+## Technologies Used
 - **React:** The front-end framework for building the user interface.
 - **Leaflet:** A lightweight open-source library for interactive maps.
 - **Thunderforest Maps:** Used to render the map and display bus locations.
@@ -71,5 +71,22 @@ Make sure to replace your_thunderforest_api_key and your_gtfs_waltti_api_token w
 - **Axios:** For handling API requests to fetch bus data.
 - **Material-UI:** For the UI components and responsive design.
 
-### Future Enhancements
- 
+## Future Enhancements
+- Display tomorrow's departures for a specific stop
+- Route search
+
+## Data Sources
+This project uses real-time public transit data provided by the **Waltti Public GTFS Realtime API**.
+
+- **Data Source**: [Waltti Public GTFS Realtime API](https://opendata.waltti.fi/)
+
+
+This project uses data available under the [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) license.
+
+- **Data Source**: https://tvv.fra1.digitaloceanspaces.com/207.zip
+  
+# Important Note for release-netlify Branch
+
+In the release-netlify branch, the stop_times.txt file must currently be updated manually by downloading it from the data source link above. Automating the update process on Netlify leads to a ResponseSizeTooLarge error.
+
+Please ensure that stop_times.txt is up-to-date before each deployment to maintain accurate data.
