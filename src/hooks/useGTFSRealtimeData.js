@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import protobuf from 'protobufjs';
-import axios from 'axios';
 import proto from '../gtfs-realtime.proto';
-import { WALTTI_API_URL } from '../utils/dataUrls';
 
 const useGTFSRealtimeData = (url, interval = 5000) => {
 	const [data, setData] = useState(null);
@@ -11,20 +9,14 @@ const useGTFSRealtimeData = (url, interval = 5000) => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const token = process.env.REACT_APP_API_TOKEN;
 			try {
-				const headers = {
-					Authorization: `Basic ${token}`,
-				};
-				const response = await axios.get(WALTTI_API_URL + url, {
-					headers: headers,
-					responseType: 'arraybuffer',
-				});
+				const response = await fetch(`/.netlify/functions/waltti-proxy?path=${encodeURIComponent(url)}`);
+				const arrayBuffer = await response.arrayBuffer();
 
 				const root = await protobuf.load(proto);
 				const FeedMessage = root.lookupType('transit_realtime.FeedMessage');
+				const message = FeedMessage.decode(new Uint8Array(arrayBuffer));
 
-				const message = FeedMessage.decode(new Uint8Array(response.data));
 				setData(message);
 				setLoading(false);
 			} catch (error) {
