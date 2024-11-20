@@ -12,7 +12,6 @@ exports.handler = async (event) => {
 	}
 
 	const url = `https://data.waltti.fi${path}`;
-	console.log('urls', url);
 	try {
 		const headers = {
 			Authorization: `Basic ${walttiToken}`,
