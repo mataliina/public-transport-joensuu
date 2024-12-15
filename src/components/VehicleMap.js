@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import 'leaflet/dist/leaflet.css';
 import useGTFSRealtimeData from '../hooks/useGTFSRealtimeData';
 import StopInfo from './StopInfo';
@@ -6,12 +6,16 @@ import RouteStops from './RouteStops';
 import RouteSelector from './RouteSelector';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import StopSearch from './StopSearch';
 import MapComponent from './MapComponent';
 import { getCookie } from '../utils/cookies';
 import { Typography } from '@mui/material';
 import { VEHICLE_POSITION_DATA_URL } from '../utils/dataUrls';
 import { vehicleLocales } from '../utils/locales';
+import { RoutesContext } from '../context/RoutesContext';
+import { StopsContext } from '../context/StopsContext';
 
 const VehicleMap = () => {
 	const [vehiclesOnRoute, setVehiclesOnRoute] = useState([]);
@@ -25,6 +29,9 @@ const VehicleMap = () => {
 	const newRouteSelected = useRef(false); // for setting bounds for map only after user selected new route
 
 	const { data, loading } = useGTFSRealtimeData(VEHICLE_POSITION_DATA_URL, 2000);
+
+	const { loading: routesLoading } = useContext(RoutesContext);
+	const { loading: stopsLoading } = useContext(StopsContext);
 
 	useEffect(() => {
 		const selectedRoutesCookie = getCookie('selectedRoutes');
@@ -57,6 +64,21 @@ const VehicleMap = () => {
 			}
 		}
 	}, [data, selectedRoute, selectedVehicle]);
+
+	if (loading || routesLoading || stopsLoading) {
+		return (
+			<Box
+				sx={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					height: '100vh', // Koko näkymä
+				}}
+			>
+				<CircularProgress />
+			</Box>
+		);
+	}
 
 	return (
 		<Grid2 container rowSpacing={2} columnSpacing={1}>
