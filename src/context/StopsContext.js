@@ -1,10 +1,4 @@
 import React, { useCallback, createContext, useEffect, useState } from 'react';
-import Papa from 'papaparse';
-import stopsData from '../staticlinjat/stops.txt';
-import calendarData from '../staticlinjat/calendar.txt';
-import calendarDatesData from '../staticlinjat/calendar_dates.txt';
-import stopTimesDataUrl from '../staticlinjat/stop_times.txt';
-import tripsDataUrl from '../staticlinjat/trips.txt';
 import { stopsLocales } from '../utils/locales';
 
 export const StopsContext = createContext();
@@ -21,19 +15,6 @@ export const StopsProvider = ({ children }) => {
 
 	useEffect(() => {
 		fetchData();
-		/*
-		const stops = fetchStops();
-		const calendar = fetchCalendar();
-		const calendar_dates = fetchCalendarDates();
-		const trips = fetchTrips();
-		const stop_times = fetchStopTimes();
-		Promise.all([stops, calendar, calendar_dates, trips, stop_times])
-			.then(() => {
-				console.log('Fetched static data');
-			})
-			.finally(() => {
-				setLoading(false);
-			});*/
 	}, []);
 
 	const fetchData = async () => {
@@ -47,7 +28,6 @@ export const StopsProvider = ({ children }) => {
 			setTrips(data.trips);
 		} catch (error) {
 			console.error(error);
-			setLoading(false);
 		} finally {
 			console.log('stops data fetched');
 			setLoading(false);
@@ -123,89 +103,6 @@ export const StopsProvider = ({ children }) => {
 		if (dateString) return dateString.slice(0, 4) + '-' + dateString.slice(4, 6) + '-' + dateString.slice(6, 8);
 		return '';
 	};
-	/*
-	const fetchStops = async () => {
-		const response = await fetch(stopsData);
-		const csvText = await response.text();
-
-		Papa.parse(csvText, {
-			header: true,
-			skipEmptyLines: true,
-			complete: function (results) {
-				setStops(results.data);
-			},
-			error: (error) => {
-				console.error('Error parsing stops data:', error);
-			},
-		});
-	};
-
-	const fetchTrips = async () => {
-		const response = await fetch(tripsDataUrl);
-		const csvText = await response.text();
-
-		Papa.parse(csvText, {
-			header: true,
-			skipEmptyLines: true,
-			complete: function (results) {
-				setTrips(results.data);
-			},
-			error: (error) => {
-				console.error('Error parsing trips data:', error);
-			},
-		});
-	};
-
-	const fetchStopTimes = async () => {
-		const response = await fetch(stopTimesDataUrl);
-		const csvText = await response.text();
-
-		Papa.parse(csvText, {
-			header: true,
-			skipEmptyLines: true,
-			complete: function (results) {
-				setStopTimes(results.data);
-			},
-			error: (error) => {
-				console.error('Error parsing stop times data:', error);
-			},
-		});
-	};
-
-	const fetchCalendar = async () => {
-		const response = await fetch(calendarData);
-		const csvText = await response.text();
-
-		Papa.parse(csvText, {
-			header: true,
-			skipEmptyLines: true,
-			complete: function (results) {
-				setCalendar(results.data);
-			},
-			error: (error) => {
-				console.error('Error parsing calendar data:', error);
-			},
-		});
-	};
-
-	const fetchCalendarDates = async () => {
-		const response = await fetch(calendarDatesData);
-		const csvText = await response.text();
-
-			Papa.parse(csvText, {
-				header: true,
-				skipEmptyLines: true,
-				complete: function (results) {
-					setCalendarDates(results.data);
-				},
-				error: (error) => {
-					console.error('Error parsing calendar dates data:', error);
-				},
-			});
-		} catch (error) {
-			console.error(error);
-		}
-	};*/
 
 	const getStopName = (stopId) => {
 		const currentStop = stops.find((stop) => stop.stop_id === stopId);
