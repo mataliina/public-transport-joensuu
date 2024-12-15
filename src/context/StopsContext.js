@@ -29,7 +29,6 @@ export const StopsProvider = ({ children }) => {
 		} catch (error) {
 			console.error(error);
 		} finally {
-			console.log('stops data fetched');
 			setLoading(false);
 		}
 	};

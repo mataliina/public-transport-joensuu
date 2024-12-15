@@ -51,7 +51,6 @@ export const RoutesProvider = ({ children }) => {
 		} catch (error) {
 			console.error(error);
 		} finally {
-			console.log('routes data fetched');
 			setLoading(false);
 		}
 	};
