@@ -30,6 +30,7 @@ const theme = createTheme({
 			contrastText: '#FFFFFF', // Tekstin väri
 		},
 		background: {
+			light: '#fafafa',
 			default: '#F2F2F2', // Neutraali taustaväri
 			paper: '#FFFFFF', // Paperin (korttien) väri
 		},
