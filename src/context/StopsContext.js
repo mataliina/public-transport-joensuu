@@ -16,6 +16,8 @@ export const StopsProvider = ({ children }) => {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
+		fetchData();
+		/*
 		const stops = fetchStops();
 		const calendar = fetchCalendar();
 		const calendar_dates = fetchCalendarDates();
@@ -28,8 +30,26 @@ export const StopsProvider = ({ children }) => {
 			})
 			.finally(() => {
 				setLoading(false);
-			});
+			});*/
 	}, []);
+
+	const fetchData = async () => {
+		try {
+			const response = await fetch('/gtfs-data.json');
+			const data = await response.json();
+			setStops(data.stops);
+			setStopTimes(data.stop_times);
+			setCalendar(data.calendar);
+			setCalendarDates(data.calendar_dates);
+			setTrips(data.trips);
+		} catch (error) {
+			console.error(error);
+			setLoading(false);
+		} finally {
+			console.log('stops data fetched');
+			setLoading(false);
+		}
+	};
 
 	const getTodaysStopTimesForStop = useCallback(
 		(stopId) => {
@@ -100,7 +120,7 @@ export const StopsProvider = ({ children }) => {
 		if (dateString) return dateString.slice(0, 4) + '-' + dateString.slice(4, 6) + '-' + dateString.slice(6, 8);
 		return '';
 	};
-
+	/*
 	const fetchStops = async () => {
 		try {
 			const response = await fetch(`/.netlify/functions/fetchGTFSStaticFiles?filename=stops.txt`);
@@ -202,7 +222,7 @@ export const StopsProvider = ({ children }) => {
 		} catch (error) {
 			console.error(error);
 		}
-	};
+	};*/
 
 	const getStopName = (stopId) => {
 		const currentStop = stops.find((stop) => stop.stop_id === stopId);
@@ -210,7 +230,7 @@ export const StopsProvider = ({ children }) => {
 	};
 
 	return (
-		<StopsContext.Provider value={{ stops, getStopName, fetchStops, selectedStop, setSelectedStop, stopTimesData, loading }}>
+		<StopsContext.Provider value={{ stops, getStopName, selectedStop, setSelectedStop, stopTimesData, loading }}>
 			{children}
 		</StopsContext.Provider>
 	);
