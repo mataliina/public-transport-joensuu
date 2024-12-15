@@ -1,0 +1,13 @@
+name: Daily Netlify Build
+
+on:
+  schedule:
+    - cron: "0 4 * * *" # klo 6 Suomen aikaa (talviaika)
+
+jobs:
+  trigger-netlify-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Netlify Build Hook
+        run: |
+          curl -X POST -d '{}' https://api.netlify.com/build_hooks/675e986216ff1043bf2600b8
