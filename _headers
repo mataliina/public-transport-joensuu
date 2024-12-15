@@ -1,0 +1,3 @@
+/gtfs-data.json
+  Cache-Control: public, max-age=43200
+  Content-Encoding: gzip
