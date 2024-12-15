@@ -20,6 +20,8 @@ export const StopsProvider = ({ children }) => {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
+		fetchData();
+		/*
 		const stops = fetchStops();
 		const calendar = fetchCalendar();
 		const calendar_dates = fetchCalendarDates();
@@ -31,8 +33,26 @@ export const StopsProvider = ({ children }) => {
 			})
 			.finally(() => {
 				setLoading(false);
-			});
+			});*/
 	}, []);
+
+	const fetchData = async () => {
+		try {
+			const response = await fetch('/gtfs-data.json');
+			const data = await response.json();
+			setStops(data.stops);
+			setStopTimes(data.stop_times);
+			setCalendar(data.calendar);
+			setCalendarDates(data.calendar_dates);
+			setTrips(data.trips);
+		} catch (error) {
+			console.error(error);
+			setLoading(false);
+		} finally {
+			console.log('stops data fetched');
+			setLoading(false);
+		}
+	};
 
 	const getTodaysStopTimesForStop = useCallback(
 		(stopId) => {
@@ -103,7 +123,7 @@ export const StopsProvider = ({ children }) => {
 		if (dateString) return dateString.slice(0, 4) + '-' + dateString.slice(4, 6) + '-' + dateString.slice(6, 8);
 		return '';
 	};
-
+	/*
 	const fetchStops = async () => {
 		const response = await fetch(stopsData);
 		const csvText = await response.text();
@@ -172,17 +192,20 @@ export const StopsProvider = ({ children }) => {
 		const response = await fetch(calendarDatesData);
 		const csvText = await response.text();
 
-		Papa.parse(csvText, {
-			header: true,
-			skipEmptyLines: true,
-			complete: function (results) {
-				setCalendarDates(results.data);
-			},
-			error: (error) => {
-				console.error('Error parsing calendar dates data:', error);
-			},
-		});
-	};
+			Papa.parse(csvText, {
+				header: true,
+				skipEmptyLines: true,
+				complete: function (results) {
+					setCalendarDates(results.data);
+				},
+				error: (error) => {
+					console.error('Error parsing calendar dates data:', error);
+				},
+			});
+		} catch (error) {
+			console.error(error);
+		}
+	};*/
 
 	const getStopName = (stopId) => {
 		const currentStop = stops.find((stop) => stop.stop_id === stopId);
