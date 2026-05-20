@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import protobuf from 'protobufjs';
 import axios from 'axios';
-import proto from '../gtfs-realtime.proto';
+import proto from '../gtfs-realtime.proto?url';
 import { WALTTI_API_URL } from '../utils/dataUrls';
 
 const useGTFSRealtimeData = (url, interval = 5000) => {
@@ -11,7 +11,7 @@ const useGTFSRealtimeData = (url, interval = 5000) => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const token = process.env.REACT_APP_API_TOKEN;
+			const token = import.meta.env.VITE_API_TOKEN;
 			try {
 				const headers = {
 					Authorization: `Basic ${token}`,
