@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import protobuf from 'protobufjs';
-import proto from '../gtfs-realtime.proto';
+import proto from '../gtfs-realtime.proto?url';
 
 const useGTFSRealtimeData = (url, interval = 5000) => {
 	const [data, setData] = useState(null);
